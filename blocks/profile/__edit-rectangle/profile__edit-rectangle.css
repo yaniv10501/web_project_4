@@ -1,0 +1,9 @@
+.profile__edit-rectangle {
+  height: 24px;
+  width: 24px;
+  border: 2px solid #fff;
+  grid-area: edit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

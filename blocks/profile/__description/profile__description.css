@@ -1,0 +1,5 @@
+.profile__description {
+  color: #fff;
+  grid-area: description;
+  margin: 0;
+}
