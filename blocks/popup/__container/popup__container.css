@@ -1,0 +1,9 @@
+.popup__container {
+  position: fixed;
+  bottom: auto;
+  right: auto;
+  width: 440px;
+  height: 330px;
+  background-color: #fff;
+  z-index: 4;
+}
