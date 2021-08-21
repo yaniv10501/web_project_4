@@ -11,6 +11,5 @@
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   min-height: 100vh;
-  min-width: 320px;
-  overflow: hidden;
+  min-width: 100%;
 }
