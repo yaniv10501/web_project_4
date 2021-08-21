@@ -2,7 +2,7 @@
 
 The 4th project of my journey of becoming a front-end developer.
 
-[Link to the page]()
+[Link to the page](https://yaniv10501.github.io/web_project_4/)
 
 ## Description
 
