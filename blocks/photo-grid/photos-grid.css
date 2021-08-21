@@ -7,3 +7,18 @@
   grid-template: repeat(2, 361px) / repeat(3, 282px);
   grid-gap: 20px 17px;
 }
+
+@media screen and (max-width: 932px) {
+  .photos-grid {
+    width: 581px;
+    grid-template: repeat(3, 361px) / repeat(2, 282px);
+  }
+}
+
+@media screen and (max-width: 652px) {
+  .photos-grid {
+    width: 282px;
+    grid-template: repeat(6, 361px) / 282px;
+    padding: 36px 0 50px 0;
+  }
+}

@@ -7,3 +7,18 @@
     / auto 1fr;
   grid-gap: 16px 18px;
 }
+
+@media screen and (max-width: 932px) {
+  .profile__info {
+    max-width: 250px;
+    grid-column-gap: 0;
+  }
+}
+
+@media screen and (max-width: 652px) {
+  .profile__info {
+    margin: 0 auto 36px auto;
+    text-align: center;
+    grid-column-gap: 10px;
+  }
+}

@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translate(0, 13px);
   opacity: 1;
   -webkit-transition: opacity 0.1s ease-out .1s;
   -o-transition: opacity 0.1s ease-out .1s;
@@ -15,4 +16,12 @@
 .profile__edit-rectangle:hover {
   opacity: 0.6;
   cursor: pointer;
+}
+
+@media screen and (max-width: 652px) {
+  .profile__edit-rectangle {
+    width: 18px;
+    height: 18px;
+    transform: translate(0, 0);
+  }
 }

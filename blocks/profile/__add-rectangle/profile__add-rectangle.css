@@ -16,3 +16,15 @@
   opacity: 0.6;
   cursor: pointer;
 }
+
+@media screen and (max-width: 932px) {
+  .profile__add-rectangle {
+    align-self: flex-end;
+  }
+}
+
+@media screen and (max-width: 652px) {
+  .profile__add-rectangle {
+    width: 282px;
+  }
+}

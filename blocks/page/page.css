@@ -10,5 +10,6 @@
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
-  height: 100vh;
+  min-height: 100vh;
+  min-width: 320px;
 }

@@ -1,7 +1,14 @@
 .profile__description {
   color: #fff;
   grid-area: description;
+  grid-column: span 2;
   margin: 0;
   font-size: 18px;
   line-height: 1.2;
+}
+
+@media screen and (max-width: 652px) {
+  .profile__description {
+    font-size: 14px;
+  }
 }
