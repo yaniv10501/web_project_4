@@ -1,6 +1,7 @@
 .profile__description {
   color: #fff;
   grid-area: description;
+  -ms-grid-column-span: 2;
   grid-column: span 2;
   margin: 0;
   font-size: 18px;

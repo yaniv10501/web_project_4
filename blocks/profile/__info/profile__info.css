@@ -1,6 +1,9 @@
 .profile__info {
   margin: auto auto auto 0;
+  display: -ms-grid;
   display: grid;
+  -ms-grid-rows: auto 16px 1fr;
+  -ms-grid-columns: auto 18px 1fr;
   grid-template:
     'name edit' auto
     'description blank' 1fr

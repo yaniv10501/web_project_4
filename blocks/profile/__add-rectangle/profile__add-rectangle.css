@@ -2,9 +2,17 @@
   height: 50px;
   width: 150px;
   border: 2px solid #fff;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
   align-self: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   opacity: 1;
   -webkit-transition: opacity 0.1s ease-out .1s;
@@ -19,6 +27,7 @@
 
 @media screen and (max-width: 932px) {
   .profile__add-rectangle {
+    -ms-flex-item-align: end;
     align-self: flex-end;
   }
 }

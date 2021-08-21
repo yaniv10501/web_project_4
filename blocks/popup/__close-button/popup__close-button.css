@@ -1,7 +1,7 @@
 .popup__close-button {
-  position: relative;
-  left: 107%;
-  bottom: 107%;
+  position: fixed;
+  left: 97%;
+  bottom: 97%;
   opacity: 1;
   -webkit-transition: opacity 0.1s ease-out .1s;
   -o-transition: opacity 0.1s ease-out .1s;
@@ -15,7 +15,7 @@
 
 @media screen and (max-width: 652px) {
   .popup__close-button {
-    left: 93%;
-    bottom: 115%;
+    left: 80%;
+    bottom: 103%;
   }
 }
