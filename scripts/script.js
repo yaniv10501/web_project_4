@@ -15,6 +15,12 @@ function openPopup() {
 
   popup.classList.add("popup_opened");
 
+  document.querySelector(".popup__name-input").value = profileName.textContent;
+
+  console.log(profileName.textContent);
+
+  document.querySelector(".popup__about-input").value = profileAbout.textContent;
+
 }
 
 function closePopup() {
