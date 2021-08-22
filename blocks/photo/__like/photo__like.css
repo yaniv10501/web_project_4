@@ -1,7 +1,7 @@
 .photo__like {
   opacity: 1;
   background-image: url(../../../images/like-button.svg);
-  background-color: rgba(0,0,0,0);;
+  background-color: rgba(0,0,0,0);
   background-size: cover;
   border: none;
   padding: 0;
