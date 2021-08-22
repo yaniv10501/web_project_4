@@ -1,4 +1,6 @@
 .profile__edit-rectangle {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   height: 24px;
   width: 24px;
   border: 2px solid #fff;
