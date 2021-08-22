@@ -1,25 +1,27 @@
 
-let edit = document.querySelector(".profile__edit-rectangle");
+let edit = document.querySelector(".profile__edit-button");
 
 let popup = document.querySelector(".popup");
 
 let cls = document.querySelector(".popup__close-button");
 
-let formElement = document.querySelector(".popup__save-button");
+let formElement = document.querySelector(".popup__container");
 
 let profileName = document.querySelector(".profile__name");
 
 let profileAbout = document.querySelector(".profile__description");
 
+let nameInput = document.querySelector(".popup__input_type-name");
+
+let jobInput = document.querySelector(".popup__input_type-about");
+
 function openPopup() {
 
   popup.classList.add("popup_opened");
 
-  document.querySelector(".popup__name-input").value = profileName.textContent;
+  nameInput.value = profileName.textContent;
 
-  console.log(profileName.textContent);
-
-  document.querySelector(".popup__about-input").value = profileAbout.textContent;
+  jobInput.value = profileAbout.textContent;
 
 }
 
@@ -33,41 +35,11 @@ function handleFormSubmit(evt) {
 
   evt.preventDefault();
 
-  let nameInput = document.querySelector(".popup__name-input").value;
+  profileName.textContent = nameInput.value;
 
-  let jobInput = document.querySelector(".popup__about-input").value;
+  profileAbout.textContent = jobInput.value;
 
-  if (!nameInput && !jobInput) {
-
-    popup.classList.remove("popup_opened");
-
-  }
-
-  else if (nameInput && !jobInput) {
-
-    profileName.textContent = nameInput;
-
-    popup.classList.remove("popup_opened");
-
-  }
-
-  else if (!nameInput && jobInput) {
-
-    profileAbout.textContent = jobInput;
-
-    popup.classList.remove("popup_opened");
-
-  }
-
-  else {
-
-    profileName.textContent = nameInput;
-
-    profileAbout.textContent = jobInput;
-
-    popup.classList.remove("popup_opened");
-
-  }
+  popup.classList.remove("popup_opened");
 
 }
 
@@ -75,8 +47,4 @@ edit.addEventListener("click", openPopup);
 
 cls.addEventListener("click", closePopup);
 
-formElement.addEventListener("click", handleFormSubmit);
-
-
-
-
+formElement.addEventListener("submit", handleFormSubmit);
