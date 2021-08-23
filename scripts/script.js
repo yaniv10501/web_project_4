@@ -11,9 +11,9 @@ let profileName = document.querySelector(".profile__name");
 
 let profileAbout = document.querySelector(".profile__description");
 
-let nameInput = document.querySelector(".popup__input_type-name");
+let nameInput = document.querySelector(".popup__input_type_name");
 
-let jobInput = document.querySelector(".popup__input_type-about");
+let jobInput = document.querySelector(".popup__input_type_about");
 
 function openPopup() {
 
@@ -39,7 +39,7 @@ function handleFormSubmit(evt) {
 
   profileAbout.textContent = jobInput.value;
 
-  popup.classList.remove("popup_opened");
+  closePopup();
 
 }
 
