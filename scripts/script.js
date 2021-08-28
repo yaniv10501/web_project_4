@@ -206,6 +206,10 @@ function handleAddFormSubmit(evt) {
 
   clsAddPopup();
 
+  placeTitleInput.value = "";
+
+  imageUrlInput.value = "";
+
 }
 
 // Listeners for buttons //
