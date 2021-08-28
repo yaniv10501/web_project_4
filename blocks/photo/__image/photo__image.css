@@ -4,3 +4,7 @@
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
 }
+
+.photo__image:hover {
+  cursor: pointer;
+}

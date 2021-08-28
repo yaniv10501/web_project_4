@@ -27,17 +27,23 @@ const initialCards = [
 
 let photoTemplate = document.querySelector("#photo").content;
 
-let edit = document.querySelector(".profile__edit-button");
 
-let add = document.querySelector(".profile__add-button");
+
+let editBtn = document.querySelector(".profile__edit-button");
+
+let addBtn = document.querySelector(".profile__add-button");
 
 let popupEdit = document.querySelector(".popup_type_edit");
 
 let popupAdd = document.querySelector(".popup_type_add");
 
+let popupImage = document.querySelector(".popup_type_image");
+
 let clsEditPop = popupEdit.querySelector(".popup__close-button");
 
 let clsAddPop = popupAdd.querySelector(".popup__close-button");
+
+let clsImagePop = popupImage.querySelector(".popup__close-button");
 
 let editFormElement = popupEdit.querySelector(".popup__container");
 
@@ -57,28 +63,55 @@ let imageUrlInput = document.querySelector(".popup__input_type_url");
 
 function createPhoto(photo) {
 
-    const photoElement = photoTemplate.querySelector(".photo").cloneNode(true);
+  const photoElement = photoTemplate.querySelector(".photo").cloneNode(true);
 
-    photoElement.querySelector(".photo__title").textContent = photo.name;
+  photoElement.querySelector(".photo__title").textContent = photo.name;
 
-    photoElement.querySelector(".photo__image").src = photo.link;
+  photoElement.querySelector(".photo__image").src = photo.link;
+
+  photoElement.querySelector(".photo__like").addEventListener("click", function(evt) {
+
+    evt.target.classList.toggle("photo__like_active");
+
+  });
+
+  photoElement.querySelector(".photo__delete").addEventListener("click", function(evt) {
+
+    const photoItem = evt.target.closest(".photo");
+
+    photoItem.remove();
+
+  });
+
+  photoElement.querySelector(".photo__image").addEventListener("click", function() {
+
+    popupImage.querySelector(".popup__image-title").textContent = photo.name;
+
+    popupImage.querySelector(".popup__image").src = photo.link;
+
+    popupImage.classList.add("popup_opened");
+
+  })
 
   return photoElement;
-}
-
-function addPhoto(photo) {
-
-  document.querySelector(".photos__grid").prepend(createPhoto(photo));
 
 }
 
 function loadPhotos() {
 
-  initialCards.forEach((photo) => {
+initialCards.forEach((photo) => {
 
-    addPhoto(photo);
+  addPhoto(photo);
 
-  });
+});
+
+}
+
+loadPhotos();
+
+function addPhoto(photo) {
+
+  document.querySelector(".photos__grid").prepend(createPhoto(photo));
 
 }
 
@@ -100,13 +133,19 @@ function closeEditPopup() {
 
 function openAddPopup() {
 
-  popupAdd.classList.add("popup_opened")
+  popupAdd.classList.add("popup_opened");
 
 }
 
 function clsAddPopup() {
 
-  popupAdd.classList.remove("popup_opened")
+  popupAdd.classList.remove("popup_opened");
+
+}
+
+function clsImagePopup() {
+
+  popupImage.classList.remove("popup_opened");
 
 }
 
@@ -141,15 +180,15 @@ function handleAddFormSubmit(evt) {
 
 }
 
-loadPhotos();
-
-edit.addEventListener("click", openEditPopup);
+editBtn.addEventListener("click", openEditPopup);
 
 clsEditPop.addEventListener("click", closeEditPopup);
 
+addBtn.addEventListener("click", openAddPopup);
+
 clsAddPop.addEventListener("click", clsAddPopup);
 
-add.addEventListener("click", openAddPopup);
+clsImagePop.addEventListener("click", clsImagePopup);
 
 editFormElement.addEventListener("submit", handleEditFormSubmit);
 
