@@ -1,3 +1,5 @@
+// Intial photos content //
+
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -25,9 +27,9 @@ const initialCards = [
   }
 ];
 
+// Setting all Vars //
+
 let photoTemplate = document.querySelector("#photo").content;
-
-
 
 let editBtn = document.querySelector(".profile__edit-button");
 
@@ -61,6 +63,8 @@ let placeTitleInput = document.querySelector(".popup__input_type_title");
 
 let imageUrlInput = document.querySelector(".popup__input_type_url");
 
+// Functions to load initial photos //
+
 function createPhoto(photo) {
 
   const photoElement = photoTemplate.querySelector(".photo").cloneNode(true);
@@ -69,11 +73,15 @@ function createPhoto(photo) {
 
   photoElement.querySelector(".photo__image").src = photo.link;
 
+  // Listener and function for like button //
+
   photoElement.querySelector(".photo__like").addEventListener("click", function(evt) {
 
     evt.target.classList.toggle("photo__like_active");
 
   });
+
+  // Listener and function for delete button //
 
   photoElement.querySelector(".photo__delete").addEventListener("click", function(evt) {
 
@@ -82,6 +90,8 @@ function createPhoto(photo) {
     photoItem.remove();
 
   });
+
+  // Listener and function for image popup //
 
   photoElement.querySelector(".photo__image").addEventListener("click", function() {
 
@@ -109,11 +119,17 @@ initialCards.forEach((photo) => {
 
 loadPhotos();
 
+//^ Photos loaded ^//
+//
+// Function to add photos //
+
 function addPhoto(photo) {
 
   document.querySelector(".photos__grid").prepend(createPhoto(photo));
 
 }
+
+// Functions for popups //
 
 function openEditPopup() {
 
@@ -149,6 +165,8 @@ function clsImagePopup() {
 
 }
 
+// Functions for submitting forms //
+
 function handleEditFormSubmit(evt) {
 
   evt.preventDefault();
@@ -179,6 +197,8 @@ function handleAddFormSubmit(evt) {
   clsAddPopup();
 
 }
+
+// Listeners for buttons //
 
 editBtn.addEventListener("click", openEditPopup);
 
