@@ -51,6 +51,8 @@ let editFormElement = popupEdit.querySelector(".popup__container");
 
 let addFormElement = popupAdd.querySelector(".popup__container");
 
+let imagePopupContainer = popupImage.querySelector(".popup__container");
+
 let profileName = document.querySelector(".profile__name");
 
 let profileAbout = document.querySelector(".profile__description");
@@ -62,6 +64,14 @@ let jobInput = document.querySelector(".popup__input_type_about");
 let placeTitleInput = document.querySelector(".popup__input_type_title");
 
 let imageUrlInput = document.querySelector(".popup__input_type_url");
+
+// Element for the popup photo //
+
+const photoForPopup = document.createElement("img");
+
+photoForPopup.classList.add("popup__image");
+
+imagePopupContainer.prepend(photoForPopup);
 
 // Functions to load initial photos //
 
@@ -95,9 +105,9 @@ function createPhoto(photo) {
 
   photoElement.querySelector(".photo__image").addEventListener("click", function() {
 
-    popupImage.querySelector(".popup__image-title").textContent = photo.name;
+    photoForPopup.src = photo.link;
 
-    popupImage.querySelector(".popup__image").src = photo.link;
+    popupImage.querySelector(".popup__image-title").textContent = photo.name;
 
     popupImage.classList.add("popup_opened");
 
