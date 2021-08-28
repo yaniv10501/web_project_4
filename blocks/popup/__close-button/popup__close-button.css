@@ -14,6 +14,11 @@
   transition: opacity 0.1s ease-out .1s;
 }
 
+.popup__container_type_image > .popup__close-button {
+  bottom: 99%;
+  left: 99%;
+}
+
 .popup__close-button:hover {
   opacity: 0.6;
   cursor: pointer;

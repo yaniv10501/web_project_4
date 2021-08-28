@@ -62,7 +62,7 @@ To make to overlay transparent without affecting the popup window, ~~I used the 
 
 The popup overlay is a flex container, the window is centered with the justify-content and the align-items set to center and the position is set to relative so it will stay at same place even when the user scrolls. The close button position is set to absolute and nested in the popup window block.
 
-There is a modifier for the image popup to make to image fit the container without padding.
+There is a modifier for the image popup to make to image fit the container, to reset the container padding, and to set the width and max witdh for the container to fit the image.
 
 ### JavaScript
 
