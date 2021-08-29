@@ -38,7 +38,7 @@ const placeTitleInput = document.querySelector(".popup__input_type_title");
 
 const imageUrlInput = document.querySelector(".popup__input_type_url");
 
-const popup = document.querySelectorAll(".popup");
+const popups = document.querySelectorAll(".popup");
 
 const page = document.querySelector(".content");
 
@@ -118,6 +118,8 @@ jobInput.value = profileAbout.textContent;
 
 function togglePopup(popupType) {
 
+  popupType.style.pointerEvents = "none";
+
   popupType.classList.toggle("popup_opened");
 
 }
@@ -161,11 +163,17 @@ function handleAddFormSubmit(evt) {
 
 function cursorDisable(popup) {
 
-  popup.addEventListener("transitionend", function() {
+  popup.addEventListener("transitionend", function(currentPopup) {
 
-    popup.style.pointerEvents = "visible";
+    if (popup != currentPopup.target) return;
 
-    page.style.pointerEvents = "auto"
+    else {
+
+      popup.style.pointerEvents = "visible";
+
+      page.style.pointerEvents = "auto"
+
+    }
 
   });
 
@@ -179,7 +187,7 @@ function cursorDisable(popup) {
 
 /** Make listener for each popup */
 
-popup.forEach(cursorDisable);
+popups.forEach(cursorDisable);
 
 /** Listeners for buttons */
 
