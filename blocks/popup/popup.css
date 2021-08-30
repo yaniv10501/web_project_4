@@ -6,9 +6,9 @@
   align-items: center;
   visibility: hidden;
   opacity: 0;
-  -webkit-transition: visibility 0.6s ease-in-out, opacity 0.6s ease-in-out;
-  -o-transition: visibility 0.6s ease-in-out, opacity 0.6s ease-in-out;
-  transition: visibility 0.6s ease-in-out, opacity 0.6s ease-in-out;
+  -webkit-transition: visibility 6s ease-in-out, opacity 6s ease-in-out, pointer-events 6s steps(1, end);
+  -o-transition: visibility 6s ease-in-out, opacity 6s ease-in-out, pointer-events 6s steps(1, end);
+  transition: visibility 6s ease-in-out, opacity 6s ease-in-out, pointer-events 6s steps(1, end);
   background-color: rgba(0,0,0,0.5);
   content: ' ';
   position: fixed;

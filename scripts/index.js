@@ -52,10 +52,12 @@ function createPhoto(photo) {
 
   photoElement.querySelector(".photo__image").src = photo.link;
 
+  photoElement.querySelector(".photo__image").alt = `A photo of ${photo.name}`;
+
   /** Listener and function for like button */
 
   photoElement.querySelector(".photo__like").addEventListener("click", function(evt) {
-7
+
     evt.target.classList.toggle("photo__like_active");
 
   });
@@ -78,7 +80,7 @@ function createPhoto(photo) {
 
     popupImage.src = photo.link;
 
-    popupImage.alt = "Full screen image of " + photo.name;
+    popupImage.alt = `Full screen image of ${photo.name}`;
 
     popupImageTitle.textContent = photo.name;
 
@@ -118,7 +120,7 @@ jobInput.value = profileAbout.textContent;
 
 function togglePopup(popupType) {
 
-  popupType.style.pointerEvents = "none";
+  //popupType.style.pointerEvents = "none";/
 
   popupType.classList.toggle("popup_opened");
 
@@ -142,10 +144,7 @@ function handleAddFormSubmit(evt) {
 
   evt.preventDefault();
 
-  const newPhoto = {
-    name: "",
-    link: ""
-  };
+  const newPhoto = {};
 
   newPhoto.name = placeTitleInput.value;
 
@@ -160,7 +159,7 @@ function handleAddFormSubmit(evt) {
 }
 
 /** Function to disable cursor during animation */
-
+/**
 function cursorDisable(popup) {
 
   popup.addEventListener("transitionend", function(currentPopup) {
@@ -184,10 +183,10 @@ function cursorDisable(popup) {
   });
 
 };
-
+*/
 /** Make listener for each popup */
 
-popups.forEach(cursorDisable);
+//popups.forEach(cursorDisable);/
 
 /** Listeners for buttons */
 
