@@ -12,4 +12,5 @@
   text-rendering: optimizeLegibility;
   min-height: 100vh;
   min-width: 320px;
+  pointer-events: all;
 }

@@ -40,7 +40,13 @@ const imageUrlInput = document.querySelector(".popup__input_type_url");
 
 const popups = document.querySelectorAll(".popup");
 
-const page = document.querySelector(".content");
+const page = document.querySelector(".page");
+
+page.addEventListener("animationend", function() {
+
+  page.classList.remove("cursor-disabled");
+
+});
 
 /** Functions to load initial photos */
 
@@ -116,13 +122,25 @@ nameInput.value = profileName.textContent;
 
 jobInput.value = profileAbout.textContent;
 
-/** Function for toggle popups */
+/** Functions for open and close popups */
 
-function togglePopup(popupType) {
+function openPopup(popupType) {
 
-  //**popupType.style.pointerEvents = "none";*/
+  popupType.classList.add("popup_opened");
 
-  popupType.classList.toggle("popup_opened");
+  popupType.classList.add("cursor-disabled");
+
+  page.classList.add("cursor-disabled");
+
+}
+
+function closePopup(popupType) {
+
+  popupType.classList.remove("popup_opened");
+
+  popupType.classList.remove("cursor-disabled");
+
+  page.classList.add("cursor-disabled");
 
 }
 
@@ -158,47 +176,17 @@ function handleAddFormSubmit(evt) {
 
 }
 
-/** Function to disable cursor during animation */
-/**
-function cursorDisable(popup) {
-
-  popup.addEventListener("transitionend", function(currentPopup) {
-
-    if (popup != currentPopup.target) return;
-
-    else {
-
-      popup.style.pointerEvents = "visible";
-
-      page.style.pointerEvents = "auto"
-
-    }
-
-  });
-
-  popup.addEventListener("transitionrun", function() {
-
-    page.style.pointerEvents = "none";
-
-  });
-
-};
-*/
-/** Make listener for each popup */
-
-//popups.forEach(cursorDisable);/
-
 /** Listeners for buttons */
 
-editButton.addEventListener("click", function() {togglePopup(popupTypeEdit)});
+editButton.addEventListener("click", function() {openPopup(popupTypeEdit)});
 
-closeEditPopup.addEventListener("click", function() {togglePopup(popupTypeEdit)});
+closeEditPopup.addEventListener("click", function() {closePopup(popupTypeEdit)});
 
-addButton.addEventListener("click", function() {togglePopup(popupTypeAdd)});
+addButton.addEventListener("click", function() {openPopup(popupTypeAdd)});
 
-closeAddPopup.addEventListener("click", function() {togglePopup(popupTypeAdd)});
+closeAddPopup.addEventListener("click", function() {closePopup(popupTypeAdd)});
 
-closeImagePopup.addEventListener("click", function() {togglePopup(popupTypeImage)});
+closeImagePopup.addEventListener("click", function() {closePopup(popupTypeImage)});
 
 popupTypeEdit.addEventListener("submit", handleEditFormSubmit);
 
