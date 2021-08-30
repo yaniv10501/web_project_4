@@ -120,7 +120,7 @@ jobInput.value = profileAbout.textContent;
 
 function togglePopup(popupType) {
 
-  //popupType.style.pointerEvents = "none";/
+  //**popupType.style.pointerEvents = "none";*/
 
   popupType.classList.toggle("popup_opened");
 
