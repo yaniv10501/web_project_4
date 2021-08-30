@@ -93,7 +93,7 @@ function createPhoto(photo) {
 
     popupImageTitle.textContent = photo.name;
 
-    togglePopup(popupTypeImage);
+    openPopup(popupTypeImage);
 
   })
 
@@ -159,7 +159,7 @@ function handleEditFormSubmit(evt) {
 
   profileAbout.textContent = jobInput.value;
 
-  togglePopup(popupTypeEdit);
+  closePopup(popupTypeEdit);
 
 }
 
@@ -175,7 +175,7 @@ function handleAddFormSubmit(evt) {
 
   addPhoto(newPhoto);
 
-  togglePopup(popupTypeAdd);
+  closePopup(popupTypeAdd);
 
   popupAddForm.reset();
 
