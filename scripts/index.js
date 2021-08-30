@@ -42,6 +42,9 @@ const popups = document.querySelectorAll(".popup");
 
 const page = document.querySelector(".page");
 
+/** A listener to the page block to remove the cursor-disabled class after the pointer-events animation ends,
+ * removing the class allow the code to run the animation again when the cursor-disabled class is re-added. */
+
 page.addEventListener("animationend", function() {
 
   page.classList.remove("cursor-disabled");
@@ -122,7 +125,9 @@ nameInput.value = profileName.textContent;
 
 jobInput.value = profileAbout.textContent;
 
-/** Functions for open and close popups */
+/** Functions for open and close popups,
+ * the cursor-disabled class is added to the popup and page blocks to disable the cursor during the transition,
+ * the popup does not need to be animated again because it has the pointer-events set to none from the popup class. */
 
 function openPopup(popupType) {
 
