@@ -22,15 +22,15 @@ const hideInputError = (form, input, settingsObject) => {
 
 };
 
-const toggleButtonState = (inputList, submitButton, settingsObject) => {
+const toggleButtonState = (form, inputList, submitButton, settingsObject) => {
 
   if (hasInvalidInput(inputList)) {
 
     submitButton.classList.add(settingsObject.inactiveButtonClass);
 
-    popupTypeEdit.removeEventListener("submit", handleEditFormSubmit);
+    form.removeEventListener("submit", handleEditFormSubmit);
 
-    popupTypeAdd.removeEventListener("submit", handleAddFormSubmit);
+    form.removeEventListener("submit", handleAddFormSubmit);
 
   }
 
@@ -38,9 +38,9 @@ const toggleButtonState = (inputList, submitButton, settingsObject) => {
 
     submitButton.classList.remove(settingsObject.inactiveButtonClass);
 
-    popupTypeEdit.addEventListener("submit", handleEditFormSubmit);
+    form.addEventListener("submit", handleEditFormSubmit);
 
-    popupTypeAdd.addEventListener("submit", handleAddFormSubmit);
+    form.addEventListener("submit", handleAddFormSubmit);
 
   }
 
@@ -78,7 +78,7 @@ const setEventListeners = (form, settingsObject) => {
 
   const submitButton = form.querySelector(settingsObject.submitButtonSelector);
 
-  toggleButtonState(inputList, submitButton, settingsObject);
+  toggleButtonState(form, inputList, submitButton, settingsObject);
 
   inputList.forEach((input) => {
 
@@ -86,7 +86,7 @@ const setEventListeners = (form, settingsObject) => {
 
       isValid(form, input, settingsObject);
 
-      toggleButtonState(inputList, submitButton, settingsObject);
+      toggleButtonState(form, inputList, submitButton, settingsObject);
 
     })
 

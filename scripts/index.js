@@ -122,6 +122,8 @@ jobInput.value = profileAbout.textContent;
 
 function openPopup(popupType) {
 
+  document.addEventListener("keydown", escapeKeyHandler);
+
   document.addEventListener("click", popupClickHandler);
 
   popupType.classList.add("popup_opened");
@@ -132,9 +134,15 @@ function closePopup(popupType) {
 
   document.removeEventListener("keydown", escapeKeyHandler);
 
+  document.removeEventListener("click", popupClickHandler);
+
   popupType.classList.remove("popup_opened");
 
-  popupAddForm.reset();
+  console.log(popupType.classList);
+
+  if (popupType.classList.contains("popup_type_add")) { popupAddForm.reset(); }
+
+  else return;
 
 }
 
@@ -166,6 +174,8 @@ function handleAddFormSubmit(evt) {
 
   closePopup(popupTypeAdd);
 
+  popupAddForm.reset();
+
 }
 
 function escapeKeyHandler(event) {
@@ -186,8 +196,6 @@ function popupClickHandler(event) {
 
   else {
 
-    document.removeEventListener("keydown", escapeKeyHandler);
-
     closePopup(document.querySelector(".popup_opened"));
 
   }
@@ -198,15 +206,11 @@ function popupClickHandler(event) {
 
 editButton.addEventListener("click", function () {
 
-  document.addEventListener("keydown", escapeKeyHandler);
-
   openPopup(popupTypeEdit);
 
 });
 
 addButton.addEventListener("click", function () {
-
-  document.addEventListener("keydown", escapeKeyHandler);
 
   openPopup(popupTypeAdd);
 
