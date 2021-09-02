@@ -1,5 +1,7 @@
 /** Setting all Vars */
 
+const resetValidation = import("./validate");
+
 const photoTemplate = document.querySelector("#photo").content;
 
 const editButton = document.querySelector(".profile__edit-button");
@@ -56,7 +58,7 @@ function createPhoto(photo) {
 
   /** Listener and function for like button */
 
-  photoElement.querySelector(".photo__like").addEventListener("click", function(evt) {
+  photoElement.querySelector(".photo__like").addEventListener("click", function (evt) {
 
     evt.target.classList.toggle("photo__like_active");
 
@@ -64,7 +66,7 @@ function createPhoto(photo) {
 
   /** Listener and function for delete button */
 
-  photoElement.querySelector(".photo__delete").addEventListener("click", function(evt) {
+  photoElement.querySelector(".photo__delete").addEventListener("click", function (evt) {
 
     let photoItem = evt.target.closest(".photo");
 
@@ -76,7 +78,9 @@ function createPhoto(photo) {
 
   /** Listener and function for image popup */
 
-  photoElement.querySelector(".photo__image").addEventListener("click", function() {
+  photoElement.querySelector(".photo__image").addEventListener("click", function () {
+
+    document.addEventListener("keydown", escapeKeyHandler);
 
     popupImage.src = photo.link;
 
@@ -94,7 +98,7 @@ function createPhoto(photo) {
 
 function loadPhotos() {
 
-initialCards.forEach(addPhoto);
+  initialCards.forEach(addPhoto);
 
 }
 
@@ -120,13 +124,21 @@ jobInput.value = profileAbout.textContent;
 
 function openPopup(popupType) {
 
+  document.addEventListener("click", popupClickHandler);
+
   popupType.classList.add("popup_opened");
 
 }
 
 function closePopup(popupType) {
 
+  document.removeEventListener("keydown", escapeKeyHandler);
+
   popupType.classList.remove("popup_opened");
+
+  popupAddForm.reset();
+
+  resetValidation();
 
 }
 
@@ -158,22 +170,48 @@ function handleAddFormSubmit(evt) {
 
   closePopup(popupTypeAdd);
 
-  popupAddForm.reset();
+}
+
+function escapeKeyHandler(event) {
+
+  if (event.key === "Escape") {
+
+    closePopup(document.querySelector(".popup_opened"));
+
+  }
+
+  else return;
+
+}
+
+function popupClickHandler(event) {
+
+  if (!event.target.classList.contains("popup") && !event.target.classList.contains("popup__close-button")) return;
+
+  else {
+
+    document.removeEventListener("keydown", escapeKeyHandler);
+
+    closePopup(document.querySelector(".popup_opened"));
+
+  }
 
 }
 
 /** Listeners for buttons */
 
-editButton.addEventListener("click", function() {openPopup(popupTypeEdit)});
+editButton.addEventListener("click", function () {
 
-closeEditPopup.addEventListener("click", function() {closePopup(popupTypeEdit)});
+  document.addEventListener("keydown", escapeKeyHandler);
 
-addButton.addEventListener("click", function() {openPopup(popupTypeAdd)});
+  openPopup(popupTypeEdit);
 
-closeAddPopup.addEventListener("click", function() {closePopup(popupTypeAdd)});
+});
 
-closeImagePopup.addEventListener("click", function() {closePopup(popupTypeImage)});
+addButton.addEventListener("click", function () {
 
-popupTypeEdit.addEventListener("submit", handleEditFormSubmit);
+  document.addEventListener("keydown", escapeKeyHandler);
 
-popupTypeAdd.addEventListener("submit", handleAddFormSubmit);
+  openPopup(popupTypeAdd);
+
+});
