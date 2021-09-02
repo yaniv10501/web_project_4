@@ -1,7 +1,5 @@
 /** Setting all Vars */
 
-const resetValidation = import("./validate");
-
 const photoTemplate = document.querySelector("#photo").content;
 
 const editButton = document.querySelector(".profile__edit-button");
@@ -137,8 +135,6 @@ function closePopup(popupType) {
   popupType.classList.remove("popup_opened");
 
   popupAddForm.reset();
-
-  resetValidation();
 
 }
 
