@@ -18,6 +18,8 @@ All blocks and elements are named and nested according to the BEM methodology.
 
 * **Popup windows**
 
+* **Forms**
+
 * **JavaScript**
 
 * **@media rule**
@@ -64,6 +66,16 @@ The popup overlay is a flex container, the window is centered with the justify-c
 
 There is a modifier for the image popup to make to image fit the container, to reset the container padding, and to set the width and max witdh for the container to fit the image.
 
+### Forms
+
+There are 2 forms in the website -
+
+* Edit profile form
+
+* Add image form
+
+Both forms have validation and custom made error messages made with JS and CSS.
+
 ### JavaScript
 
 The photos for the photo grid are made through the JS file when the website loads, to make the JS load the images i made the createPhoto function to clone the template of the photo block and assign it with a title, url and the listeners, and then i made the loadPhotos function to go through to initialCards array and add each photo to the grid. I also made the addPhotos function so i can use it bot for the loadPhotos function and for the handleAddFormSubmit function.
@@ -76,7 +88,10 @@ when the user presses the close or save button the popup_opened class modifier i
 
 The Profile info change when the user inputs a new name, info, or both. The changes happen with the **handleFormSubmit Function**, I store the name and info as variables and change them to the user input with the textContent.
 
-To add a photo
+To add a photo i made a function when the add form submits, the function makes a new object with the inputs from the form and passes it through the add addPhotos function.
+
+Forms validation is in validate.js and there are some exports and imports to make the form validation reset upon closing.
+
 
 ### @media rule
 

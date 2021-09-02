@@ -1,3 +1,15 @@
+/** Importing vars from index.js so validation work with type="module" */
+
+import { nameInput, jobInput, profileName, profileAbout } from './index.js'
+
+/** Assign name and about info for edit popup */
+
+nameInput.value = profileName.textContent;
+
+jobInput.value = profileAbout.textContent;
+
+/** Function to show input error */
+
 const showInputError = (form, input, errorMessage, settingsObject) => {
 
   const errorElement = form.querySelector(`.${input.id}-error`);
@@ -9,6 +21,8 @@ const showInputError = (form, input, errorMessage, settingsObject) => {
   errorElement.classList.add(settingsObject.errorClass);
 
 };
+
+/** Function to hide input error */
 
 const hideInputError = (form, input, settingsObject) => {
 
@@ -22,15 +36,15 @@ const hideInputError = (form, input, settingsObject) => {
 
 };
 
-const toggleButtonState = (form, inputList, submitButton, settingsObject) => {
+/** Function to toggle the submit button state */
+
+const toggleButtonState = (inputList, submitButton, settingsObject) => {
 
   if (hasInvalidInput(inputList)) {
 
     submitButton.classList.add(settingsObject.inactiveButtonClass);
 
-    form.removeEventListener("submit", handleEditFormSubmit);
-
-    form.removeEventListener("submit", handleAddFormSubmit);
+    submitButton.disabled = true;
 
   }
 
@@ -38,13 +52,13 @@ const toggleButtonState = (form, inputList, submitButton, settingsObject) => {
 
     submitButton.classList.remove(settingsObject.inactiveButtonClass);
 
-    form.addEventListener("submit", handleEditFormSubmit);
-
-    form.addEventListener("submit", handleAddFormSubmit);
+    submitButton.disabled = false;
 
   }
 
 }
+
+/** Function to check if a specific input is valid */
 
 const isValid = (form, input, settingsObject) => {
 
@@ -56,11 +70,15 @@ const isValid = (form, input, settingsObject) => {
 
   else {
 
-    hideInputError(form, input, settingsObject)
+    hideInputError(form, input, settingsObject);
 
   }
 
 };
+
+/** Function to check if an input list has an invalid input,
+ * Some method is used to return as soon as an invalid input is found
+ */
 
 const hasInvalidInput = (inputList) => {
 
@@ -72,13 +90,15 @@ const hasInvalidInput = (inputList) => {
 
 };
 
+/** Function to set the event listeners for the form inputs */
+
 const setEventListeners = (form, settingsObject) => {
 
   const inputList = Array.from(form.querySelectorAll(settingsObject.inputSelector));
 
   const submitButton = form.querySelector(settingsObject.submitButtonSelector);
 
-  toggleButtonState(form, inputList, submitButton, settingsObject);
+  toggleButtonState(inputList, submitButton, settingsObject);
 
   inputList.forEach((input) => {
 
@@ -86,13 +106,15 @@ const setEventListeners = (form, settingsObject) => {
 
       isValid(form, input, settingsObject);
 
-      toggleButtonState(form, inputList, submitButton, settingsObject);
+      toggleButtonState(inputList, submitButton, settingsObject);
 
     })
 
   })
 
 }
+
+/** Function to enable validation for the forms */
 
 const enableValidation = (settingsObject) => {
 
@@ -112,6 +134,8 @@ const enableValidation = (settingsObject) => {
 
 };
 
+/** Calling the enableValidation function and passing the settings object */
+
 enableValidation({
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
@@ -120,3 +144,28 @@ enableValidation({
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible"
 });
+
+/** Exporting the resetValidation so i can use it in index.js for the closePopup function */
+
+export const resetValidation = (formList) => {
+
+  formList.forEach((form) => {
+
+    const inputList = Array.from(form.querySelectorAll(".popup__input"));
+
+    const submitButton = form.querySelector(".popup__save-button");
+
+    toggleButtonState(inputList, submitButton, { inactiveButtonClass: "popup__save-button_disabled" });
+
+    inputList.forEach((input) => {
+
+      hideInputError(form, input, {
+        inputErrorClass: "popup__input_type_error",
+        errorClass: "popup__error_visible"
+      });
+
+    });
+
+  });
+
+};

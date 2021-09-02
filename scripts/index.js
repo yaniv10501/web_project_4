@@ -1,3 +1,7 @@
+/** Importing the resetValidation function from validate.js */
+
+import { resetValidation } from './validate.js'
+
 /** Setting all Vars */
 
 const photoTemplate = document.querySelector("#photo").content;
@@ -12,13 +16,7 @@ const popupTypeAdd = document.querySelector(".popup_type_add");
 
 const popupTypeImage = document.querySelector(".popup_type_image");
 
-const popupAddForm = popupTypeAdd.querySelector(".popup__form");
-
-const closeEditPopup = popupTypeEdit.querySelector(".popup__close-button");
-
-const closeAddPopup = popupTypeAdd.querySelector(".popup__close-button");
-
-const closeImagePopup = popupTypeImage.querySelector(".popup__close-button");
+const popupAddForm = popupTypeAdd.querySelector(".popup__form[name='add']");
 
 const photoGrid = document.querySelector(".photos__grid")
 
@@ -26,21 +24,21 @@ const popupImage = document.querySelector(".popup__image");
 
 const popupImageTitle = document.querySelector(".popup__image-title")
 
-const profileName = document.querySelector(".profile__name");
-
-const profileAbout = document.querySelector(".profile__description");
-
-const nameInput = document.querySelector(".popup__input_type_name");
-
-const jobInput = document.querySelector(".popup__input_type_about");
-
 const placeTitleInput = document.querySelector(".popup__input_type_title");
 
 const imageUrlInput = document.querySelector(".popup__input_type_url");
 
-const popups = document.querySelectorAll(".popup");
+const formList = document.querySelectorAll(".popup__form");
 
-const page = document.querySelector(".page");
+/** Exporting vars to use in validate.js */
+
+export const profileName = document.querySelector(".profile__name");
+
+export const profileAbout = document.querySelector(".profile__description");
+
+export const nameInput = document.querySelector(".popup__input_type_name");
+
+export const jobInput = document.querySelector(".popup__input_type_about");
 
 /** Functions to load initial photos */
 
@@ -94,6 +92,8 @@ function createPhoto(photo) {
 
 }
 
+/** Function to load the photos form initial-cards.js */
+
 function loadPhotos() {
 
   initialCards.forEach(addPhoto);
@@ -112,15 +112,11 @@ function addPhoto(photo) {
 
 }
 
-/** Assign name and about info for edit popup */
-
-nameInput.value = profileName.textContent;
-
-jobInput.value = profileAbout.textContent;
-
 /** Functions for open and close popups */
 
 function openPopup(popupType) {
+
+  /** Adding the key-down and the click listener to close the popup */
 
   document.addEventListener("keydown", escapeKeyHandler);
 
@@ -132,17 +128,17 @@ function openPopup(popupType) {
 
 function closePopup(popupType) {
 
+  /** Removing the key-down and the click listener after popup is closed */
+
   document.removeEventListener("keydown", escapeKeyHandler);
 
   document.removeEventListener("click", popupClickHandler);
 
   popupType.classList.remove("popup_opened");
 
-  console.log(popupType.classList);
-
   if (popupType.classList.contains("popup_type_add")) { popupAddForm.reset(); }
 
-  else return;
+  resetValidation(formList);
 
 }
 
@@ -178,6 +174,8 @@ function handleAddFormSubmit(evt) {
 
 }
 
+/** Function for the key-down listener to close to popup when the user press the "escape" key */
+
 function escapeKeyHandler(event) {
 
   if (event.key === "Escape") {
@@ -189,6 +187,8 @@ function escapeKeyHandler(event) {
   else return;
 
 }
+
+/** Function for the click listener to close to popup when the user click the overlay or the close button */
 
 function popupClickHandler(event) {
 
@@ -215,3 +215,7 @@ addButton.addEventListener("click", function () {
   openPopup(popupTypeAdd);
 
 });
+
+popupTypeAdd.addEventListener("submit", handleAddFormSubmit);
+
+popupTypeEdit.addEventListener("submit", handleEditFormSubmit);
