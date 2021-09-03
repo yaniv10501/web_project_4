@@ -1,34 +1,6 @@
 /** Importing the resetValidation function from validate.js */
 
-import { resetValidation } from './validate.js'
-
-/** Setting all Vars */
-
-const photoTemplate = document.querySelector("#photo").content;
-
-const editButton = document.querySelector(".profile__edit-button");
-
-const addButton = document.querySelector(".profile__add-button");
-
-const popupTypeEdit = document.querySelector(".popup_type_edit");
-
-const popupTypeAdd = document.querySelector(".popup_type_add");
-
-const popupTypeImage = document.querySelector(".popup_type_image");
-
-const popupAddForm = popupTypeAdd.querySelector(".popup__form[name='add']");
-
-const photoGrid = document.querySelector(".photos__grid")
-
-const popupImage = document.querySelector(".popup__image");
-
-const popupImageTitle = document.querySelector(".popup__image-title")
-
-const placeTitleInput = document.querySelector(".popup__input_type_title");
-
-const imageUrlInput = document.querySelector(".popup__input_type_url");
-
-const formList = document.querySelectorAll(".popup__form");
+import { resetValidation, assignEditValues } from './validate.js'
 
 /** Exporting vars to use in validate.js */
 
@@ -75,8 +47,6 @@ function createPhoto(photo) {
   /** Listener and function for image popup */
 
   photoElement.querySelector(".photo__image").addEventListener("click", function () {
-
-    document.addEventListener("keydown", escapeKeyHandler);
 
     popupImage.src = photo.link;
 
@@ -138,6 +108,8 @@ function closePopup(popupType) {
 
   if (popupType.classList.contains("popup_type_add")) { popupAddForm.reset(); }
 
+  if (popupType.classList.contains("popup_type_edit")) { assignEditValues(); }
+
   resetValidation(formList);
 
 }
@@ -183,8 +155,6 @@ function escapeKeyHandler(event) {
     closePopup(document.querySelector(".popup_opened"));
 
   }
-
-  else return;
 
 }
 

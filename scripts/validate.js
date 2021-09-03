@@ -4,9 +4,15 @@ import { nameInput, jobInput, profileName, profileAbout } from './index.js'
 
 /** Assign name and about info for edit popup */
 
-nameInput.value = profileName.textContent;
+export const assignEditValues = () => {
 
-jobInput.value = profileAbout.textContent;
+  nameInput.value = profileName.textContent;
+
+  jobInput.value = profileAbout.textContent;
+
+};
+
+assignEditValues();
 
 /** Function to show input error */
 
