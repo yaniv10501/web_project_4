@@ -1,4 +1,4 @@
-/** Importing the resetValidation function from validate.js */
+/** Importing the resetValidation and assignEditValues functions from validate.js */
 
 import { resetValidation, assignEditValues } from './validate.js'
 
