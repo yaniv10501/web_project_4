@@ -1,66 +1,7 @@
 /** Importing the resetValidation and assignEditValues functions from validate.js */
 
-import { resetValidation, assignEditValues } from './validate.js'
-
-/** Exporting vars to use in validate.js */
-
-export const profileName = document.querySelector(".profile__name");
-
-export const profileAbout = document.querySelector(".profile__description");
-
-export const nameInput = document.querySelector(".popup__input_type_name");
-
-export const jobInput = document.querySelector(".popup__input_type_about");
-
-/** Functions to load initial photos */
-
-function createPhoto(photo) {
-
-  const photoElement = photoTemplate.querySelector(".photo").cloneNode(true);
-
-  photoElement.querySelector(".photo__title").textContent = photo.name;
-
-  photoElement.querySelector(".photo__image").src = photo.link;
-
-  photoElement.querySelector(".photo__image").alt = `A photo of ${photo.name}`;
-
-  /** Listener and function for like button */
-
-  photoElement.querySelector(".photo__like").addEventListener("click", function (evt) {
-
-    evt.target.classList.toggle("photo__like_active");
-
-  });
-
-  /** Listener and function for delete button */
-
-  photoElement.querySelector(".photo__delete").addEventListener("click", function (evt) {
-
-    let photoItem = evt.target.closest(".photo");
-
-    photoItem.remove();
-
-    photoItem = null;
-
-  });
-
-  /** Listener and function for image popup */
-
-  photoElement.querySelector(".photo__image").addEventListener("click", function () {
-
-    popupImage.src = photo.link;
-
-    popupImage.alt = `Full screen image of ${photo.name}`;
-
-    popupImageTitle.textContent = photo.name;
-
-    openPopup(popupTypeImage);
-
-  })
-
-  return photoElement;
-
-}
+import Card from './card.js';
+import { resetValidation, assignEditValues } from './validate.js';
 
 /** Function to load the photos form initial-cards.js */
 
@@ -78,39 +19,11 @@ loadPhotos();
 
 function addPhoto(photo) {
 
-  photoGrid.prepend(createPhoto(photo));
+  const card = new Card(photo.name, photo.link);
 
-}
+  const cardElement = card.createCard();
 
-/** Functions for open and close popups */
-
-function openPopup(popupType) {
-
-  /** Adding the key-down and the click listener to close the popup */
-
-  document.addEventListener("keydown", escapeKeyHandler);
-
-  document.addEventListener("click", popupClickHandler);
-
-  popupType.classList.add("popup_opened");
-
-}
-
-function closePopup(popupType) {
-
-  /** Removing the key-down and the click listener after popup is closed */
-
-  document.removeEventListener("keydown", escapeKeyHandler);
-
-  document.removeEventListener("click", popupClickHandler);
-
-  popupType.classList.remove("popup_opened");
-
-  if (popupType.classList.contains("popup_type_add")) { popupAddForm.reset(); }
-
-  if (popupType.classList.contains("popup_type_edit")) { assignEditValues(); }
-
-  resetValidation(formList);
+  photoGrid.prepend(cardElement);
 
 }
 
@@ -143,6 +56,36 @@ function handleAddFormSubmit(evt) {
   closePopup(popupTypeAdd);
 
   popupAddForm.reset();
+
+}
+
+export default function openPopup(popupType) {
+
+  /** Adding the key-down and the click listener to close the popup */
+
+  document.addEventListener("keydown", escapeKeyHandler);
+
+  document.addEventListener("click", popupClickHandler);
+
+  popupType.classList.add("popup_opened");
+
+}
+
+function closePopup(popupType) {
+
+  /** Removing the key-down and the click listener after popup is closed */
+
+  document.removeEventListener("keydown", escapeKeyHandler);
+
+  document.removeEventListener("click", popupClickHandler);
+
+  popupType.classList.remove("popup_opened");
+
+  if (popupType.classList.contains("popup_type_add")) { popupAddForm.reset(); }
+
+  if (popupType.classList.contains("popup_type_edit")) { assignEditValues(); }
+
+  resetValidation(formList);
 
 }
 

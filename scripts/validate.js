@@ -1,7 +1,3 @@
-/** Importing vars from index.js so validation work with type="module" */
-
-import { nameInput, jobInput, profileName, profileAbout } from './index.js'
-
 /** Assign name and about info for edit popup */
 
 export const assignEditValues = () => {

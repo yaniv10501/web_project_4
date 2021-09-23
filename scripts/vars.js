@@ -25,3 +25,11 @@ const placeTitleInput = document.querySelector(".popup__input_type_title");
 const imageUrlInput = document.querySelector(".popup__input_type_url");
 
 const formList = document.querySelectorAll(".popup__form");
+
+const profileName = document.querySelector(".profile__name");
+
+const profileAbout = document.querySelector(".profile__description");
+
+const nameInput = document.querySelector(".popup__input_type_name");
+
+const jobInput = document.querySelector(".popup__input_type_about");
