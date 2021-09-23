@@ -1,23 +1,26 @@
+/** Importing the openPopup() function so i can use it in the _handleImageClick() method */
+
 import openPopup from "./index.js";
 
+/** The Card Class
+ * Public method createCard() to create a new image card with all of its functions
+ */
+
 export default class Card {
+
+  /** Constructor take image title and url
+   * Constructor clone the template from HTML to make a new card element
+   */
 
   constructor(title, url) {
     this._title = title;
     this._url = url;
+    this._element = photoTemplate.querySelector(".photo").cloneNode(true);
   }
 
-  _getTemplate() {
-
-    const cardElement = photoTemplate.querySelector(".photo").cloneNode(true);
-
-    return cardElement;
-
-  };
+  /** Public method to create a new image card with all of its functions */
 
   createCard() {
-
-    this._element = this._getTemplate();
 
     this._setEventListeners();
 
@@ -31,6 +34,8 @@ export default class Card {
 
   }
 
+  /** Private method to handle a click on the delete icon */
+
   _handleDelete(event) {
 
     let photoItem = event.target.closest(".photo");
@@ -41,11 +46,15 @@ export default class Card {
 
   }
 
+  /** Private method to handle a click on the like icon */
+
   _handleLike(event) {
 
     event.target.classList.toggle("photo__like_active");
 
   }
+
+  /** Private method to handle a click on the image and opening a popup */
 
   _handleImageClick() {
 
@@ -58,6 +67,8 @@ export default class Card {
     openPopup(popupTypeImage);
 
   }
+
+  /** Private method to set the listeners for the image card */
 
   _setEventListeners() {
 

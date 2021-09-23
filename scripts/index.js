@@ -1,7 +1,21 @@
-/** Importing the resetValidation and assignEditValues functions from validate.js */
+/** Importing the Card and FormValidator classes */
 
-import Card from './card.js';
-import { resetValidation, assignEditValues } from './validate.js';
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+
+/** A function to assign the values for the edit popup */
+
+const assignEditValues = () => {
+
+  nameInput.value = profileName.textContent;
+
+  jobInput.value = profileAbout.textContent;
+
+};
+
+/** Calling the assignEditValues function to set the edit popup input values on page start */
+
+assignEditValues();
 
 /** Function to load the photos form initial-cards.js */
 
@@ -59,6 +73,10 @@ function handleAddFormSubmit(evt) {
 
 }
 
+/** A function to open a popup,
+ * This function is being exported to the Card class for the _handleImageClick method
+ */
+
 export default function openPopup(popupType) {
 
   /** Adding the key-down and the click listener to close the popup */
@@ -71,6 +89,8 @@ export default function openPopup(popupType) {
 
 }
 
+/** A function to close a popup */
+
 function closePopup(popupType) {
 
   /** Removing the key-down and the click listener after popup is closed */
@@ -81,11 +101,27 @@ function closePopup(popupType) {
 
   popupType.classList.remove("popup_opened");
 
-  if (popupType.classList.contains("popup_type_add")) { popupAddForm.reset(); }
+  /** If the popup type is image then no form actions are required */
 
-  if (popupType.classList.contains("popup_type_edit")) { assignEditValues(); }
+  if (popupType.classList.contains("popup_type_image")) return;
 
-  resetValidation(formList);
+  /** Making a new form instance to call the resetValidation method */
+
+  const form = new FormValidator(popupType.querySelector(".popup__form"), settingsObject);
+
+  if (popupType.classList.contains("popup_type_add")) {
+
+    popupAddForm.reset();
+    form.resetValidation();
+
+  }
+
+  if (popupType.classList.contains("popup_type_edit")) {
+
+    assignEditValues();
+    form.resetValidation();
+
+  }
 
 }
 
@@ -132,3 +168,13 @@ addButton.addEventListener("click", function () {
 popupTypeAdd.addEventListener("submit", handleAddFormSubmit);
 
 popupTypeEdit.addEventListener("submit", handleEditFormSubmit);
+
+/** Enabling validation for all the forms */
+
+formList.forEach((form) => {
+
+  const formValidator = new FormValidator(form, settingsObject);
+
+  formValidator.enableValidation();
+
+});

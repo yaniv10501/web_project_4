@@ -33,3 +33,12 @@ const profileAbout = document.querySelector(".profile__description");
 const nameInput = document.querySelector(".popup__input_type_name");
 
 const jobInput = document.querySelector(".popup__input_type_about");
+
+const settingsObject = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__save-button",
+  inactiveButtonClass: "popup__save-button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible"
+};
