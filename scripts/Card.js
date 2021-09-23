@@ -27,7 +27,7 @@ export default class Card {
    * @private
    */
 
-  _handleDelete() {
+  _handleDelete = () => {
 
     let photoItem = this._element.closest(".photo");
 
@@ -43,9 +43,9 @@ export default class Card {
    * @private
    */
 
-  _handleLike() {
+  _handleLike = () => {
 
-    this._element.classList.toggle("photo__like_active");
+    this._element.querySelector(".photo__like").classList.toggle("photo__like_active");
 
   }
 
@@ -95,9 +95,11 @@ export default class Card {
 
     this._element.querySelector(".photo__title").textContent = this._title;
 
-    this._element.querySelector(".photo__image").src = this._url;
+    const photoImage = this._element.querySelector(".photo__image");
 
-    this._element.querySelector(".photo__image").alt = `A photo of ${this._title}`;
+    photoImage.src = this._url;
+
+    photoImage.alt = `A photo of ${this._title}`;
 
     return this._element
 
