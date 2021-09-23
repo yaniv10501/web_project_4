@@ -1,13 +1,15 @@
-/** The FormValidator class
- * Public method enableValidation() to enable validation on the form
- * Public method resetValidation() to reset validation when JS changes the input
+/** @module FormValidator */
+
+/**
+ * @class
+ * @classdesc Enable validation on a form with the enableValidation() method,
+ * reset validation when JS changes the input with the resetValidation() method.
+ * @constructor
+ * @param {object} form - A form element
+ * @param {object} settingsObject - An object with selectors and classes
  */
 
 export default class FormValidator {
-
-  /** Constructor take form element and settings Object
-   * Constructor build an input-list and finds the submit-button
-   */
 
   constructor(form, settingsObject) {
     this._form = form;
@@ -16,19 +18,23 @@ export default class FormValidator {
     this._submitButton = this._form.querySelector(this._settingsObject.submitButtonSelector);
   }
 
-  /** Private method to check if the input-list has an invalid input */
+  /**
+   * @method _hasInvalidInput
+   * @description Private method to check if the input-list has an invalid input
+   * @private
+   */
 
   _hasInvalidInput() {
 
-    return this._inputList.some(inputElement => {
-
-      return !inputElement.validity.valid;
-
-    });
+    return this._inputList.some((inputElement) => !inputElement.validity.valid);
 
   }
 
-  /** Private method to toggle a submit-button state according to the input validation */
+  /**
+   * @method _toggleButtonState
+   * @description Private method to toggle a submit-button state according to the input validation
+   * @private
+   */
 
   _toggleButtonState() {
 
@@ -50,7 +56,11 @@ export default class FormValidator {
 
   }
 
-  /** Private method to make the error message visible */
+  /**
+   * @method _showInputError
+   * @description Private method to make the error message visible
+   * @private
+  */
 
   _showInputError(input, errorMessage) {
 
@@ -64,7 +74,11 @@ export default class FormValidator {
 
   }
 
-  /** Private method to hide the error message */
+  /**
+   * @method _hideInputError
+   * @description Private method to hide the error message
+   * @private
+  */
 
   _hideInputError(input) {
 
@@ -78,9 +92,13 @@ export default class FormValidator {
 
   };
 
-  /** Private method to check if a certain input is valid */
+  /**
+   * @method _checkInputValidity
+   * @description Private method to check if a certain input is valid
+   * @private
+  */
 
-  _isValid = (input) => {
+  _checkInputValidity = (input) => {
 
     if (!input.validity.valid) {
 
@@ -96,17 +114,25 @@ export default class FormValidator {
 
   }
 
-  /** Private method to handle the input event listener */
+  /**
+   * @method _handleInput
+   * @description Private method to handle the input event listener
+   * @private
+   */
 
   _handleInput(input) {
 
-    this._isValid(input);
+    this._checkInputValidity(input);
 
     this._toggleButtonState();
 
   }
 
-  /** Private method to set the event listeners for the inputs */
+  /**
+   * @method _setEventListeners
+   * @description Private method to set the event listeners for the inputs
+   * @private
+  */
 
   _setEventListeners() {
 
@@ -124,7 +150,11 @@ export default class FormValidator {
 
   }
 
-  /** Public method to manually reset a form after JS has changed its inputs */
+  /**
+   * @method resetValidation
+   * @description Public method to manually reset a form after JS has changed its inputs
+   * @public
+  */
 
   resetValidation() {
 
@@ -138,7 +168,11 @@ export default class FormValidator {
 
   };
 
-  /** Public method to enable validation on a form */
+  /**
+   * @method enableValidation
+   * @description Public method to enable validation on a form
+   * @public
+   */
 
   enableValidation() {
 

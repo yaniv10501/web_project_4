@@ -12,7 +12,9 @@ const popupTypeAdd = document.querySelector(".popup_type_add");
 
 const popupTypeImage = document.querySelector(".popup_type_image");
 
-const popupAddForm = popupTypeAdd.querySelector(".popup__form[name='add']");
+const popupAddForm = document.querySelector(".popup__form[name='add']");
+
+const popupEditForm = document.querySelector(".popup__form[name='edit']");
 
 const photoGrid = document.querySelector(".photos__grid")
 
