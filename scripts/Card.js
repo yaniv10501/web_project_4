@@ -55,7 +55,7 @@ export default class Card {
    * @private
    */
 
-  _handleImageClick() {
+  _handleImageClick = () => {
 
     popupImage.src = this._url;
 

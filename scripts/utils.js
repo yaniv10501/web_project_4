@@ -1,6 +1,6 @@
 /** Importing the Card class and the addForm and editForm validators */
 
-import { addForm, editForm } from './index.js';
+import { addForm, editForm, assignEditValues } from './index.js';
 
 /** @module utils */
 
@@ -88,4 +88,4 @@ function openPopup(popupType) {
 
 /** Exporting functions to use in other modules */
 
-export { assignEditValues, loadPhotos, openPopup, handleAddFormSubmit, handleEditFormSubmit };
+export { openPopup, closePopup };

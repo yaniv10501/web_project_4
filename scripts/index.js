@@ -115,4 +115,4 @@ popupTypeAdd.addEventListener("submit", handleAddFormSubmit);
 
 popupTypeEdit.addEventListener("submit", handleEditFormSubmit);
 
-export { addForm, editForm};
+export { addForm, editForm, assignEditValues};
