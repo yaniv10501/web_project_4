@@ -29,11 +29,9 @@ export default class Card {
 
   _handleDelete = () => {
 
-    let photoItem = this._element.closest(".photo");
+    this._element.remove();
 
-    photoItem.remove();
-
-    photoItem = null;
+    this._element = null;
 
   }
 
