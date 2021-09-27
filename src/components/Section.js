@@ -17,7 +17,7 @@ export default class Section {
   constructor({ items, renderer }, sectionSelector) {
     this._items = items;
     this._renderer = renderer;
-    this._section = sectionSelector;
+    this._section = document.querySelector(sectionSelector);
   }
 
   /**
@@ -40,11 +40,7 @@ export default class Section {
 
   renderSection() {
 
-    this._items.forEach(item => {
-
-      this._renderer(item);
-
-    });
+    this._items.forEach(this._renderer);
 
   }
 

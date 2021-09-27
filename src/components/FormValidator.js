@@ -80,7 +80,7 @@ export default class FormValidator {
    * @private
   */
 
-  _hideInputError(input) {
+  _hideInputError = (input) => {
 
     const errorElement = this._form.querySelector(`.${input.id}-error`);
 
@@ -160,11 +160,7 @@ export default class FormValidator {
 
     this._toggleButtonState();
 
-    this._inputList.forEach((input) => {
-
-      this._hideInputError(input);
-
-    });
+    this._inputList.forEach(this._hideInputError);
 
   };
 

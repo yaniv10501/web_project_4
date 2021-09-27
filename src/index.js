@@ -75,9 +75,8 @@ function addPhoto({ name, link }) {
 
 const photoGridSection = new Section({
   items: initialCards,
-  renderer: (item) => {
-    addPhoto(item);
-  }
+  renderer: addPhoto
+
 }, selectors.photoGrid);
 
 photoGridSection.renderSection();
