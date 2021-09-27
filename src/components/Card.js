@@ -1,24 +1,23 @@
-/** Importing the openPopup() function so i can use it in the _handleImageClick() method */
-
-import { openPopup } from "./utils.js";
-
 /** @module Card */
 
 /**
  * @class
  * @classdesc Creates a new card with the createCard() method
  * @constructor
- * @param {string} title - the title of the card
- * @param {string} url - the url of the image
- * @param {object} template - a template for the card
+ * @param {string} title - The title of the card
+ * @param {string} url - The url of the image
+ * @param {element} template - A template for the card
+ * @param {object} - An object with a function to handle image click
+ * @param {function} handleCardClick - A callback to the image click handler
  */
 
 export default class Card {
 
-  constructor(title, url, template) {
+  constructor(title, url, template, { handleCardClick }) {
     this._title = title;
     this._url = url;
     this._element = template.querySelector(".photo").cloneNode(true);
+    this._handleCardClick = handleCardClick;
   }
 
   /**
@@ -55,13 +54,7 @@ export default class Card {
 
   _handleImageClick = () => {
 
-    popupImage.src = this._url;
-
-    popupImage.alt = `Full screen image of ${this._title}`;
-
-    popupImageTitle.textContent = this._title;
-
-    openPopup(popupTypeImage);
+    this._handleCardClick();
 
   }
 

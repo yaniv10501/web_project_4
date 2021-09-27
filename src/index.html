@@ -10,8 +10,6 @@
 
   <title>Around the USA</title>
 
-  <link rel="stylesheet" href="./pages/index.css">
-
 </head>
 
 <body>
@@ -20,7 +18,7 @@
 
     <header class="header">
 
-      <img class="header__logo" src="./images/header-logo.svg" alt="Header logo">
+      <img class="header__logo" src="<%=require('./images/header-logo.svg')%>" alt="Header logo">
 
     </header>
 
@@ -28,13 +26,13 @@
 
       <section class="profile">
 
-        <img class="profile__pic" src="./images/profile-pic.jpg" alt="Profile picture">
+        <img class="profile__pic" src="<%=require('./images/profile-pic.jpg')%>" alt="Profile picture">
 
         <div class="profile__info">
 
-          <h1 class="profile__name">Jacques Cousteau</h1>
+          <h1 class="profile__name" id="name">Jacques Cousteau</h1>
 
-          <p class="profile__description">Explorer</p>
+          <p class="profile__description" id="job">Explorer</p>
 
           <button class="profile__edit-button" type="button" aria-label="Edit profile"></button>
 
@@ -74,7 +72,7 @@
           <span class="popup__error name-input-error"></span>
 
           <input class="popup__input popup__input_type_about" id="about-input" type="text" placeholder="about me"
-            name="about" minlength="2" maxlength="200" required>
+            name="job" minlength="2" maxlength="200" required>
 
           <span class="popup__error about-input-error"></span>
 
@@ -97,12 +95,12 @@
           <h2 class="popup__title">New Place</h2>
 
           <input class="popup__input popup__input_type_title" id="title-input" type="text" placeholder="Title"
-            name="Place title" minlength="1" maxlength="30" required>
+            name="title" minlength="1" maxlength="30" required>
 
           <span class="popup__error  title-input-error"></span>
 
           <input class="popup__input popup__input_type_url" id="url-input" type="url" placeholder="Image URL"
-            name="Image URL" required>
+            name="url" required>
 
           <span class="popup__error url-input-error"></span>
 
@@ -120,7 +118,7 @@
 
       <div class="popup__container popup__container_type_image">
 
-        <img class="popup__image" src="./images/default-popup-image.png" alt="Popup image">
+        <img class="popup__image" src="<%=require('./images/default-popup-image.png')%>" alt="Popup image">
 
         <h2 class="popup__image-title"></h2>
 
@@ -151,18 +149,6 @@
     </li>
 
   </template>
-
-  <script src="./scripts/initial-cards.js"></script>
-
-  <script src="./scripts/vars.js"></script>
-
-  <script type="module" src="./scripts/index.js"></script>
-
-  <script type="module" src="./scripts/utils.js"></script>
-
-  <script type="module" src="./scripts/FormValidator.js"></script>
-
-  <script type="module" src="./scripts/Card.js"></script>
 
 </body>
 
