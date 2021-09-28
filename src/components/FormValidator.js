@@ -62,13 +62,13 @@ export default class FormValidator {
    * @private
   */
 
-  _showInputError(input, errorMessage) {
+  _showInputError = () => {
 
-    const errorElement = this._form.querySelector(`.${input.id}-error`);
+    const errorElement = this._form.querySelector(`.${this._input.id}-error`);
 
-    input.classList.add(this._settingsObject.inputErrorClass);
+    this._input.classList.add(this._settingsObject.inputErrorClass);
 
-    errorElement.textContent = errorMessage;
+    errorElement.textContent = this._input.validationMessage;
 
     errorElement.classList.add(this._settingsObject.errorClass);
 
@@ -98,17 +98,17 @@ export default class FormValidator {
    * @private
   */
 
-  _checkInputValidity = (input) => {
+  _checkInputValidity = () => {
 
-    if (!input.validity.valid) {
+    if (!this._input.validity.valid) {
 
-      this._showInputError(input, input.validationMessage);
+      this._showInputError();
 
     }
 
     else {
 
-      this._hideInputError(input);
+      this._hideInputError(this._input);
 
     }
 
@@ -120,9 +120,11 @@ export default class FormValidator {
    * @private
    */
 
-  _handleInput(input) {
+  _handleInput = (event) => {
 
-    this._checkInputValidity(input);
+    this._input = event.target;
+
+    this._checkInputValidity();
 
     this._toggleButtonState();
 
@@ -140,11 +142,7 @@ export default class FormValidator {
 
     this._inputList.forEach((input) => {
 
-      input.addEventListener("input", () => {
-
-        this._handleInput(input);
-
-      })
+      input.addEventListener("input", this._handleInput)
 
     });
 
