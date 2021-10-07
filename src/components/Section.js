@@ -38,9 +38,11 @@ export default class Section {
    * @public
    */
 
-  renderSection() {
+  renderSection(items) {
 
-    this._items.forEach(this._renderer);
+    if (items) items.forEach(this._renderer);
+
+    else this._items.forEach(this._renderer);
 
   }
 

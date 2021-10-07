@@ -10,10 +10,8 @@ import {
   popupAddForm,
   popupEditForm,
   popupEditPictureForm,
-  photoGrid,
   nameInput,
   jobInput,
-  editPictureInput,
   settingsObject,
   selectors,
   userInfoInitRes,
@@ -61,17 +59,6 @@ const assignEditValues = () => {
 
 };
 
-/**
- * @function assignEditPictureValues
- * @description Function to assign the values for the edit picture popup
-*/
-
-const assignEditPictureValues = () => {
-
-  editPictureInput.value = "";
-
-}
-
 /** Adding event listeneres to the image popup */
 
 const popupWithImage = new PopupWithImage(selectors.popupTypeImage, {
@@ -97,13 +84,13 @@ const popupWithEditPictureForm = new PopupWithForm(selectors.popupTypeEditPictur
         userInfo.setUserPicture(picture);
       })
       .then(() => {
-        popupWithEditPictureForm.closePopup()
-        setTimeout(() => { popupEditPictureSubmitButton.textContent = "Save" }, 600);
+        popupWithEditPictureForm.closePopup();
       })
       .catch(err => console.log(err))
+      .finally(() => setTimeout(() => { popupEditPictureSubmitButton.textContent = "Save" }, 600))
   },
   formReset: () => {
-    assignEditPictureValues();
+    popupEditPictureForm.reset();
     editPictureFormValidator.resetValidation();
   }
 })
@@ -117,28 +104,13 @@ const popupWithAddForm = new PopupWithForm(selectors.popupTypeAdd, {
 
     popupAddSubmitButton.textContent = "Creating...";
 
-    const newPhoto = {};
-
     api.addCard({ name: title, link: url })
       .then((res) => {
-        newPhoto._id = res._id;
-        newPhoto.owner = res.owner;
-        newPhoto.likes = res.likes;
-      })
-      .then(() => {
-
-        newPhoto.name = title;
-
-        newPhoto.link = url;
-
-        addPhoto(newPhoto);
-
+        addPhoto(res);
         popupWithAddForm.closePopup();
-
-        setTimeout(() => { popupAddSubmitButton.textContent = "Create" }, 600);
-
       })
       .catch(err => console.log(err))
+      .finally(() => setTimeout(() => { popupAddSubmitButton.textContent = "Create" }, 600))
 
   },
 
@@ -167,9 +139,9 @@ const popupWithEditForm = new PopupWithForm(selectors.popupTypeEditInfo, {
       })
       .then(() => {
         popupWithEditForm.closePopup();
-        setTimeout(() => { popupEditSubmitButton.textContent = "Save" }, 600);
       })
       .catch(err => console.log(err))
+      .finally(() => setTimeout(() => { popupEditSubmitButton.textContent = "Save" }, 600))
 
   },
 
@@ -200,9 +172,9 @@ const popupWithDeleteForm = new PopupWithForm(selectors.popupTypeDeletePicture, 
       })
       .then(() => {
         popupWithDeleteForm.closePopup();
-        setTimeout(() => { popupDeletePictureSubmitButton.textContent = "Yes" }, 600);
       })
       .catch(err => console.log(err))
+      .finally(() => setTimeout(() => { popupDeletePictureSubmitButton.textContent = "Yes" }, 600))
   },
   formReset: () => popupDeletePictureForm._id = ""
 })
@@ -254,9 +226,15 @@ function addPhoto({ name, link, _id, owner, likes }) {
 
   const cardElement = createCard({ name, link, _id, owner, likes });
 
-  photoGrid.prepend(cardElement);
+  photoGridSection.addItems(cardElement);
 
 }
+
+const photoGridSection = new Section({
+  items: null,
+  renderer: addPhoto
+
+}, selectors.photoGrid);
 
 /** Getting the user info and initial cards from the API and rendering the website */
 
@@ -266,19 +244,12 @@ Promise.all([api.getUserInfo(), api.getIntialCard()])
     userInfoInitRes.job = values[0].about;
     userInfoInitRes.picture = values[0].avatar;
     userInfoInitRes._id = values[0]._id;
-
-    const photoGridSection = new Section({
-      items: values[1],
-      renderer: addPhoto
-
-    }, selectors.photoGrid);
-    photoGridSection.renderSection()
+    photoGridSection.renderSection(values[1]);
   })
   .then(() => {
     userInfo.setUserInfo({ name: userInfoInitRes.name, job: userInfoInitRes.job });
     userInfo.setUserPicture(userInfoInitRes.picture);
     assignEditValues();
-    assignEditPictureValues();
     editFormValidator.enableValidation();
     editPictureFormValidator.enableValidation();
     spinner.classList.add("spinner_hidden");

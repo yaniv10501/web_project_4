@@ -50,13 +50,9 @@ export const popupEditPictureForm = document.querySelector(".popup__form[name='e
 
 export const popupDeletePictureForm = document.querySelector(".popup__form[name='delete']");
 
-export const photoGrid = document.querySelector(".photos__grid");
-
 export const nameInput = document.querySelector(".popup__input_type_name");
 
 export const jobInput = document.querySelector(".popup__input_type_about");
-
-export const editPictureInput = document.querySelector(".popup__input_type_profile-picture");
 
 export const profilePictureEditButton = document.querySelector(".profile__edit-pic");
 
