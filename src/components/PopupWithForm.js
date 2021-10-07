@@ -17,6 +17,7 @@ export default class PopupWithForm extends Popup {
     super(popupSelector);
     this._handleSubmit = handleSubmit;
     this._formReset = formReset;
+    this._inputList = this._popup.querySelectorAll(".popup__input");
   }
 
   /**
@@ -29,7 +30,7 @@ export default class PopupWithForm extends Popup {
 
     const inputValues = {};
 
-    const inputList = this._popup.querySelectorAll(".popup__input");
+    const inputList = this._inputList;
 
     inputList.forEach(input => {
 

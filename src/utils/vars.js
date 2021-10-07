@@ -1,6 +1,36 @@
 /** Setting all Vars */
 
-export const initialCards = [];
+export const userInfoInitRes = {
+  name: "",
+  job: "",
+  picture: "",
+  _id: ""
+};
+
+export const selectors = {
+  photoGrid: ".photos__grid",
+  popupTypeImage: ".popup_type_image",
+  popupTypeEditInfo: ".popup_type_edit-info",
+  popupTypeEditPicture: ".popup_type_edit-picture",
+  popupTypeDeletePicture: ".popup_type_delete",
+  popupTypeAdd: ".popup_type_add",
+  profileName: ".profile__name",
+  profileJob: ".profile__description",
+  profilePicture: ".profile__pic",
+  imageSelectorInPopup: ".popup__image",
+  titleSelectorInPopup: ".popup__image-title"
+};
+
+export const settingsObject = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__save-button",
+  inactiveButtonClass: "popup__save-button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible"
+};
+
+export let initialCards = [];
 
 export const content = document.querySelector(".content");
 
@@ -30,32 +60,10 @@ export const editPictureInput = document.querySelector(".popup__input_type_profi
 
 export const profilePictureEditButton = document.querySelector(".profile__edit-pic");
 
-export const userInfoRes = {
-  name: "",
-  job: "",
-  picture: "",
-  _id: ""
-};
+export const popupDeletePictureSubmitButton = popupDeletePictureForm.querySelector(settingsObject.submitButtonSelector);
 
-export const selectors = {
-  photoGrid: ".photos__grid",
-  popupTypeImage: ".popup_type_image",
-  popupTypeEditInfo: ".popup_type_edit-info",
-  popupTypeEditPicture: ".popup_type_edit-picture",
-  popupTypeDeletePicture: ".popup_type_delete",
-  popupTypeAdd: ".popup_type_add",
-  profileName: ".profile__name",
-  profileJob: ".profile__description",
-  profilePicture: ".profile__pic",
-  imageSelectorInPopup: ".popup__image",
-  titleSelectorInPopup: ".popup__image-title"
-};
+export const popupEditPictureSubmitButton = popupEditPictureForm.querySelector(settingsObject.submitButtonSelector);
 
-export const settingsObject = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__save-button",
-  inactiveButtonClass: "popup__save-button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible"
-};
+export const popupEditSubmitButton = popupEditForm.querySelector(settingsObject.submitButtonSelector);
+
+export const popupAddSubmitButton = popupAddForm.querySelector(settingsObject.submitButtonSelector);

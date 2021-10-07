@@ -29,8 +29,12 @@ export default class Card {
     this._ownerId = ownerId._id;
     this._userId = userId;
     this._likeCount = likes.length;
-    this._isLiked = likes.some(like => like._id == userId ? true : false);
+    this._isLikedByMe = likes.some(like => like._id == userId ? true : false);
     this._handleLike = handleLike;
+    this._likeCountElement = this._element.querySelector(".photo__like-count");
+    this._likeElement = this._element.querySelector(".photo__like");
+    this._imageElement = this._element.querySelector(".photo__image");
+    this._deleteElement = this._element.querySelector(".photo__delete");
   }
 
   /**
@@ -41,11 +45,32 @@ export default class Card {
 
   _setEventListeners() {
 
-    this._element.querySelector(".photo__like").addEventListener("click", this._handleLike);
+    this._likeElement.addEventListener("click", this._handleLike);
 
-    this._element.querySelector(".photo__delete").addEventListener("click", this._handleCardDelete);
+    this._deleteElement.addEventListener("click", this._handleCardDelete);
 
-    this._element.querySelector(".photo__image").addEventListener("click", this._handleCardClick);
+    this._imageElement.addEventListener("click", this._handleCardClick);
+
+  }
+
+  /**
+   * @method assignLikeCount
+   * @description A public method to assign the new like count for the picture
+   * @param {number} likeCount - The number of likes the picture has
+   * @public
+   */
+
+  assignLikeCount(likeCount) {
+
+    this._likeCountElement.textContent = likeCount;
+
+    this._likeElement.classList.toggle("photo__like_active");
+
+  }
+
+  isLiked() {
+
+    return this._likeElement.classList.contains("photo__like_active") ? true : false;
 
   }
 
@@ -57,9 +82,9 @@ export default class Card {
 
   createCard() {
 
-    if (this._userId != this._ownerId) this._element.querySelector(".photo__delete").classList.add("photo__delete_hidden");
+    if (this._userId != this._ownerId) this._deleteElement.classList.add("photo__delete_hidden");
 
-    if (this._isLiked) this._element.querySelector(".photo__like").classList.add("photo__like_active");
+    if (this._isLikedByMe) this._likeElement.classList.add("photo__like_active");
 
     this._setEventListeners();
 
@@ -67,9 +92,9 @@ export default class Card {
 
     this._element.querySelector(".photo__title").textContent = this._title;
 
-    this._element.querySelector(".photo__like-count").textContent = this._likeCount;
+    this._likeCountElement.textContent = this._likeCount;
 
-    const photoImage = this._element.querySelector(".photo__image");
+    const photoImage = this._imageElement;
 
     photoImage.src = this._url;
 

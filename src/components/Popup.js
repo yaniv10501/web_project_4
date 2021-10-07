@@ -26,6 +26,8 @@ export default class Popup {
 
     this._popup.classList.remove("popup_opened");
 
+    document.removeEventListener("keydown", this._escapeKeyHandler);
+
   }
 
   /**
@@ -66,9 +68,7 @@ export default class Popup {
 
   setEventListeners() {
 
-    document.addEventListener("click", this._popupClickHandler);
-
-    document.addEventListener("keydown", this._escapeKeyHandler);
+    this._popup.addEventListener("click", this._popupClickHandler);
 
   }
 
@@ -79,6 +79,8 @@ export default class Popup {
    */
 
   openPopup() {
+
+    document.addEventListener("keydown", this._escapeKeyHandler);
 
     this._popup.classList.add("popup_opened");
 

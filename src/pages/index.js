@@ -1,8 +1,7 @@
 /** Importing the Card and FormValidator classes */
 
-import './styles/index.css';
+import './index.css';
 import {
-  initialCards,
   content,
   spinner,
   photoTemplate,
@@ -17,18 +16,22 @@ import {
   editPictureInput,
   settingsObject,
   selectors,
-  userInfoRes,
+  userInfoInitRes,
   profilePictureEditButton,
-  popupDeletePictureForm
-} from './utils/vars.js';
+  popupDeletePictureForm,
+  popupDeletePictureSubmitButton,
+  popupAddSubmitButton,
+  popupEditPictureSubmitButton,
+  popupEditSubmitButton
+} from '../utils/vars.js';
 
-import Api from './components/Api';
-import Card from './components/Card.js';
-import FormValidator from './components/FormValidator.js';
-import Section from './components/Section.js';
-import PopupWithImage from './components/PopupWithImage.js';
-import PopupWithForm from './components/PopupWithForm.js';
-import UserInfo from './components/UserInfo.js';
+import Api from '../components/Api';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/group-12",
@@ -65,7 +68,7 @@ const assignEditValues = () => {
 
 const assignEditPictureValues = () => {
 
-  editPictureInput.value = userInfoRes.picture;
+  editPictureInput.value = "";
 
 }
 
@@ -82,53 +85,22 @@ popupWithImage.setEventListeners();
 
 addFormValidator.enableValidation();
 
-/** Getting the user info from the server and updating the website */
-
-api.getUserInfo()
-  .then((result) => {
-    userInfoRes.name = result.name;
-    userInfoRes.job = result.about;
-    userInfoRes.picture = result.avatar;
-    userInfoRes._id = result._id;
-  })
-  .then(() => {
-
-    userInfo.setUserInfo({ name: userInfoRes.name, job: userInfoRes.job });
-
-    userInfo.setUserPicture(userInfoRes.picture);
-
-    assignEditValues();
-
-    assignEditPictureValues();
-
-    editFormValidator.enableValidation();
-
-    editPictureFormValidator.enableValidation();
-
-    spinner.classList.add("spinner_hidden");
-
-    content.classList.remove("content_hidden");
-
-  })
-  .catch(err => console.log(err))
-
 /** Adding event listeners to the edit picture form */
 
 const popupWithEditPictureForm = new PopupWithForm(selectors.popupTypeEditPicture, {
-  handleSubmit: () => {
+  handleSubmit: ({ picture }) => {
 
-    popupEditPictureForm.querySelector(settingsObject.submitButtonSelector).textContent = "Saving...";
+    popupEditPictureSubmitButton.textContent = "Saving...";
 
-    api.setUserPicture(editPictureInput.value)
-      .then((res) => {
-        userInfoRes.picture = res.avatar;
-        userInfo.setUserPicture(userInfoRes.picture);
+    api.setUserPicture(picture)
+      .then(() => {
+        userInfo.setUserPicture(picture);
+      })
+      .then(() => {
+        popupWithEditPictureForm.closePopup()
+        setTimeout(() => { popupEditPictureSubmitButton.textContent = "Save" }, 600);
       })
       .catch(err => console.log(err))
-      .finally(() => {
-        popupWithEditPictureForm.closePopup()
-        setTimeout(() => { popupEditPictureForm.querySelector(settingsObject.submitButtonSelector).textContent = "Save" }, 600);
-      })
   },
   formReset: () => {
     assignEditPictureValues();
@@ -143,7 +115,7 @@ popupWithEditPictureForm.setEventListeners();
 const popupWithAddForm = new PopupWithForm(selectors.popupTypeAdd, {
   handleSubmit: ({ title, url }) => {
 
-    popupAddForm.querySelector(settingsObject.submitButtonSelector).textContent = "Creating...";
+    popupAddSubmitButton.textContent = "Creating...";
 
     const newPhoto = {};
 
@@ -153,8 +125,7 @@ const popupWithAddForm = new PopupWithForm(selectors.popupTypeAdd, {
         newPhoto.owner = res.owner;
         newPhoto.likes = res.likes;
       })
-      .catch(err => console.log(err))
-      .finally(() => {
+      .then(() => {
 
         newPhoto.name = title;
 
@@ -164,9 +135,10 @@ const popupWithAddForm = new PopupWithForm(selectors.popupTypeAdd, {
 
         popupWithAddForm.closePopup();
 
-        setTimeout(() => { popupAddForm.querySelector(settingsObject.submitButtonSelector).textContent = "Create" }, 600);
+        setTimeout(() => { popupAddSubmitButton.textContent = "Create" }, 600);
 
       })
+      .catch(err => console.log(err))
 
   },
 
@@ -187,17 +159,17 @@ popupWithAddForm.setEventListeners();
 const popupWithEditForm = new PopupWithForm(selectors.popupTypeEditInfo, {
   handleSubmit: ({ name, job }) => {
 
-    popupEditForm.querySelector(settingsObject.submitButtonSelector).textContent = "Saving...";
+    popupEditSubmitButton.textContent = "Saving...";
 
     api.setUserinfo({ name: name, about: job })
       .then(() => {
         userInfo.setUserInfo({ name, job });
       })
-      .catch(err => console.log(err))
-      .finally(() => {
+      .then(() => {
         popupWithEditForm.closePopup();
-        setTimeout(() => { popupEditForm.querySelector(settingsObject.submitButtonSelector).textContent = "Save" }, 600);
+        setTimeout(() => { popupEditSubmitButton.textContent = "Save" }, 600);
       })
+      .catch(err => console.log(err))
 
   },
 
@@ -217,7 +189,7 @@ popupWithEditForm.setEventListeners();
 const popupWithDeleteForm = new PopupWithForm(selectors.popupTypeDeletePicture, {
   handleSubmit: () => {
 
-    popupDeletePictureForm.querySelector(settingsObject.submitButtonSelector).textContent = "Deleting...";
+    popupDeletePictureSubmitButton.textContent = "Deleting...";
 
     api.deleteCard(popupDeletePictureForm._id)
       .then(() => {
@@ -226,27 +198,50 @@ const popupWithDeleteForm = new PopupWithForm(selectors.popupTypeDeletePicture, 
         deletedPicture = null;
         popupDeletePictureForm._id = ""
       })
-      .catch(err => console.log(err))
-      .finally(() => {
+      .then(() => {
         popupWithDeleteForm.closePopup();
-        setTimeout(() => { popupDeletePictureForm.querySelector(settingsObject.submitButtonSelector).textContent = "Yes" }, 600);
+        setTimeout(() => { popupDeletePictureSubmitButton.textContent = "Yes" }, 600);
       })
+      .catch(err => console.log(err))
   },
   formReset: () => popupDeletePictureForm._id = ""
 })
 
 popupWithDeleteForm.setEventListeners();
 
-/**
- * @function assignLikeCount
- * @description A function to assign the new like count for the picture
- * @param {object} photo - The object of the photo element
- * @param {number} likeCount - The number of likes the picture has
- */
+function createCard({ name, link, _id, owner, likes }) {
 
-function assignLikeCount(photo, likeCount) {
+  const card = new Card(name, link, _id, owner, userInfoInitRes._id, likes, photoTemplate, {
+    handleCardClick: () => {
+      popupWithImage.openPopup({ name, link });
+    },
+    handleCardDelete: () => {
+      popupWithDeleteForm.openPopup();
+      popupDeletePictureForm._id = _id;
+    },
+    handleLike: () => {
 
-  photo.querySelector(".photo__like-count").textContent = likeCount;
+      if (card.isLiked()) {
+
+        api.removeLike(_id)
+          .then(res => card.assignLikeCount(res.likes.length))
+          .catch(err => console.log(err))
+
+      }
+
+      else {
+
+        api.addLike(_id)
+          .then(res => card.assignLikeCount(res.likes.length))
+          .catch(err => console.log(err))
+
+      }
+
+    }
+
+  });
+
+  return card.createCard();
 
 }
 
@@ -257,72 +252,39 @@ function assignLikeCount(photo, likeCount) {
 
 function addPhoto({ name, link, _id, owner, likes }) {
 
-  const card = new Card(name, link, _id, owner, userInfoRes._id, likes, photoTemplate, {
-    handleCardClick: () => {
-      popupWithImage.openPopup({ name, link });
-    },
-    handleCardDelete: () => {
-      popupWithDeleteForm.openPopup();
-      popupDeletePictureForm._id = _id;
-    },
-    handleLike: () => {
-
-      const photo = document.querySelector(`.photo[id='${_id}']`);
-      const photoLikeButton = photo.querySelector(".photo__like");
-
-      if (photoLikeButton.classList.contains("photo__like_active")) {
-
-        api.removeLike(_id)
-          .then(res => assignLikeCount(photo, res.likes.length))
-          .catch(err => console.log(err))
-          .finally(() => photoLikeButton.classList.toggle("photo__like_active"))
-
-      }
-
-      else {
-
-        api.addLike(_id)
-          .then(res => assignLikeCount(photo, res.likes.length))
-          .catch(err => console.log(err))
-          .finally(() => photoLikeButton.classList.toggle("photo__like_active"))
-
-      }
-
-    }
-  });
-
-  const cardElement = card.createCard();
+  const cardElement = createCard({ name, link, _id, owner, likes });
 
   photoGrid.prepend(cardElement);
 
 }
 
-/** Creating and rendering the photoGrid section */
+/** Getting the user info and initial cards from the API and rendering the website */
 
-const photoGridSection = new Section({
-  items: initialCards,
-  renderer: addPhoto
+Promise.all([api.getUserInfo(), api.getIntialCard()])
+  .then((values) => {
+    userInfoInitRes.name = values[0].name;
+    userInfoInitRes.job = values[0].about;
+    userInfoInitRes.picture = values[0].avatar;
+    userInfoInitRes._id = values[0]._id;
 
-}, selectors.photoGrid);
+    const photoGridSection = new Section({
+      items: values[1],
+      renderer: addPhoto
 
-api.getIntialCard()
-  .then((result) => {
-
-    let i = 0;
-
-    result.forEach((card) => {
-
-      initialCards[i] = card
-
-      i++;
-
-    })
-
-    console.log(initialCards)
-
+    }, selectors.photoGrid);
+    photoGridSection.renderSection()
+  })
+  .then(() => {
+    userInfo.setUserInfo({ name: userInfoInitRes.name, job: userInfoInitRes.job });
+    userInfo.setUserPicture(userInfoInitRes.picture);
+    assignEditValues();
+    assignEditPictureValues();
+    editFormValidator.enableValidation();
+    editPictureFormValidator.enableValidation();
+    spinner.classList.add("spinner_hidden");
+    content.classList.remove("content_hidden");
   })
   .catch(err => console.log(err))
-  .finally(() => photoGridSection.renderSection())
 
 /** Adding listeners for the add, edit and edit picture buttons */
 
