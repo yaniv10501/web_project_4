@@ -6,13 +6,17 @@
  * @method getUserInfo - A public method to get an object with the user info
  * @method setUserInfo - A public method to set the user info
  * @constructor
- * @param {object} selectors - An object with the user info
+ * @param {object} - An object with the user info selectors
+ * @param {string} name - The selector for the user name
+ * @param {string} job - The selector for the user about info
+ * @param {string} picture - The selector for the user picture
  */
 
 export default class UserInfo {
-  constructor({ name, job }) {
+  constructor({ name, job, picture }) {
     this._name = document.querySelector(name);
     this._job = document.querySelector(job);
+    this._picture = document.querySelector(picture);
   }
 
   /**
@@ -40,6 +44,19 @@ export default class UserInfo {
     this._name.textContent = name;
 
     this._job.textContent = job;
+
+  }
+
+  /**
+   * @method setUserPicture
+   * @description A public method to set the user picture
+   * @param {string} url - The url of the user picture
+   * @public
+   */
+
+  setUserPicture(url) {
+
+    this._picture.style.backgroundImage = `url(${url})`;
 
   }
 

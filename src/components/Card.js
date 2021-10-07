@@ -6,56 +6,31 @@
  * @constructor
  * @param {string} title - The title of the card
  * @param {string} url - The url of the image
+ * @param {string} cardId - The id of the card
+ * @param {string} ownerId - The id of the card owner
+ * @param {string} userId - The id of the user
+ * @param {array} likes - The array of the card likes
  * @param {element} template - A template for the card
- * @param {object} - An object with a function to handle image click
+ * @param {object} - An object with functions to handle image click, image delete and image like
  * @param {function} handleCardClick - A callback to the image click handler
+ * @param {function} handleCardDelete - A callback to the delete card handler
+ * @param {function} handleLike - A callback to the image like handler
  */
 
 export default class Card {
 
-  constructor(title, url, template, { handleCardClick }) {
+  constructor(title, url, cardId, ownerId, userId, likes, template, { handleCardClick, handleCardDelete, handleLike }) {
     this._title = title;
     this._url = url;
+    this._cardId = cardId;
     this._element = template.querySelector(".photo").cloneNode(true);
     this._handleCardClick = handleCardClick;
-  }
-
-  /**
-   * @method _handleDelete
-   * @description Private method to handle a click on the delete icon
-   * @private
-   */
-
-  _handleDelete = () => {
-
-    this._element.remove();
-
-    this._element = null;
-
-  }
-
-  /**
-   * @method _handleLike
-   * @description Private method to handle a click on the like icon
-   * @private
-   */
-
-  _handleLike = () => {
-
-    this._element.querySelector(".photo__like").classList.toggle("photo__like_active");
-
-  }
-
-  /**
-   * @method _handleImageClick
-   * @description Private method to handle a click on the image and opening a popup
-   * @private
-   */
-
-  _handleImageClick = () => {
-
-    this._handleCardClick();
-
+    this._handleCardDelete = handleCardDelete;
+    this._ownerId = ownerId._id;
+    this._userId = userId;
+    this._likeCount = likes.length;
+    this._isLiked = likes.some(like => like._id == userId ? true : false);
+    this._handleLike = handleLike;
   }
 
   /**
@@ -68,9 +43,9 @@ export default class Card {
 
     this._element.querySelector(".photo__like").addEventListener("click", this._handleLike);
 
-    this._element.querySelector(".photo__delete").addEventListener("click", this._handleDelete);
+    this._element.querySelector(".photo__delete").addEventListener("click", this._handleCardDelete);
 
-    this._element.querySelector(".photo__image").addEventListener("click", this._handleImageClick);
+    this._element.querySelector(".photo__image").addEventListener("click", this._handleCardClick);
 
   }
 
@@ -82,9 +57,17 @@ export default class Card {
 
   createCard() {
 
+    if (this._userId != this._ownerId) this._element.querySelector(".photo__delete").classList.add("photo__delete_hidden");
+
+    if (this._isLiked) this._element.querySelector(".photo__like").classList.add("photo__like_active");
+
     this._setEventListeners();
 
+    this._element.id = this._cardId;
+
     this._element.querySelector(".photo__title").textContent = this._title;
+
+    this._element.querySelector(".photo__like-count").textContent = this._likeCount;
 
     const photoImage = this._element.querySelector(".photo__image");
 

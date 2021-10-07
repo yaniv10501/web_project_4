@@ -3,8 +3,12 @@
 @import url(../blocks/page/page.css);
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
+@import url(../blocks/spinner/spinner.css);
+@import url(../blocks/spinner/_hidden/spinner_hidden.css);
 @import url(../blocks/content/content.css);
+@import url(../blocks/content/_hidden/content_hidden.css);
 @import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__pic-rectangle/profile__edit-pic.css);
 @import url(../blocks/profile/__pic/profile__pic.css);
 @import url(../blocks/profile/__info/profile__info.css);
 @import url(../blocks/profile/__name/profile__name.css);
@@ -15,9 +19,12 @@
 @import url(../blocks/photo/photo.css);
 @import url(../blocks/photo/__image/photo__image.css);
 @import url(../blocks/photo/__delete/photo__delete.css);
+@import url(../blocks/photo/__delete/_hidden/photo__delete_hidden.css);
 @import url(../blocks/photo/__info/photo__info.css);
 @import url(../blocks/photo/__title/photo__title.css);
+@import url(../blocks/photo/__like-container/photo__like-container.css);
 @import url(../blocks/photo/__like/photo__like.css);
+@import url(../blocks/photo/__like-count/photo__like-count.css);
 @import url(../blocks/photo/__like/_active/photo__like_active.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

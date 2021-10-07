@@ -1,20 +1,28 @@
 /** Importing the Card and FormValidator classes */
 
 import './styles/index.css';
-import { initialCards } from './utils/initial-cards.js';
 import {
+  initialCards,
+  content,
+  spinner,
   photoTemplate,
   editButton,
   addButton,
   popupAddForm,
   popupEditForm,
+  popupEditPictureForm,
   photoGrid,
   nameInput,
   jobInput,
+  editPictureInput,
   settingsObject,
-  selectors
+  selectors,
+  userInfoRes,
+  profilePictureEditButton,
+  popupDeletePictureForm
 } from './utils/vars.js';
 
+import Api from './components/Api';
 import Card from './components/Card.js';
 import FormValidator from './components/FormValidator.js';
 import Section from './components/Section.js';
@@ -22,7 +30,18 @@ import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import UserInfo from './components/UserInfo.js';
 
-const userInfo = new UserInfo({ name: selectors.profileName, job: selectors.profileJob });
+const api = new Api({
+  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+  authorization: "12be1991-4f28-449f-a9a9-71d4704b25a2"
+})
+
+const userInfo = new UserInfo({ name: selectors.profileName, job: selectors.profileJob, picture: selectors.profilePicture });
+
+const addFormValidator = new FormValidator(popupAddForm, settingsObject);
+
+const editFormValidator = new FormValidator(popupEditForm, settingsObject);
+
+const editPictureFormValidator = new FormValidator(popupEditPictureForm, settingsObject);
 
 /**
  * @function assignEditValues
@@ -39,9 +58,16 @@ const assignEditValues = () => {
 
 };
 
-/** Calling the assignEditValues function to set the edit popup input values on page start */
+/**
+ * @function assignEditPictureValues
+ * @description Function to assign the values for the edit picture popup
+*/
 
-assignEditValues();
+const assignEditPictureValues = () => {
+
+  editPictureInput.value = userInfoRes.picture;
+
+}
 
 /** Adding event listeneres to the image popup */
 
@@ -52,59 +78,95 @@ const popupWithImage = new PopupWithImage(selectors.popupTypeImage, {
 
 popupWithImage.setEventListeners();
 
-/**
- * @function addPhoto
- * @description Function to add photos
- */
-
-function addPhoto({ name, link }) {
-
-  const card = new Card(name, link, photoTemplate, {
-    handleCardClick: () => {
-      popupWithImage.openPopup({ name, link });
-    }
-  });
-
-  const cardElement = card.createCard();
-
-  photoGrid.prepend(cardElement);
-
-}
-
-/** Creating and rendering the photoGrid section */
-
-const photoGridSection = new Section({
-  items: initialCards,
-  renderer: addPhoto
-
-}, selectors.photoGrid);
-
-photoGridSection.renderSection();
-
-/** Enabling validation for all the forms */
-
-const addFormValidator = new FormValidator(popupAddForm, settingsObject);
-
-const editFormValidator = new FormValidator(popupEditForm, settingsObject);
+/** Enabling validation for the add form */
 
 addFormValidator.enableValidation();
 
-editFormValidator.enableValidation();
+/** Getting the user info from the server and updating the website */
+
+api.getUserInfo()
+  .then((result) => {
+    userInfoRes.name = result.name;
+    userInfoRes.job = result.about;
+    userInfoRes.picture = result.avatar;
+    userInfoRes._id = result._id;
+  })
+  .then(() => {
+
+    userInfo.setUserInfo({ name: userInfoRes.name, job: userInfoRes.job });
+
+    userInfo.setUserPicture(userInfoRes.picture);
+
+    assignEditValues();
+
+    assignEditPictureValues();
+
+    editFormValidator.enableValidation();
+
+    editPictureFormValidator.enableValidation();
+
+    spinner.classList.add("spinner_hidden");
+
+    content.classList.remove("content_hidden");
+
+  })
+  .catch(err => console.log(err))
+
+/** Adding event listeners to the edit picture form */
+
+const popupWithEditPictureForm = new PopupWithForm(selectors.popupTypeEditPicture, {
+  handleSubmit: () => {
+
+    popupEditPictureForm.querySelector(settingsObject.submitButtonSelector).textContent = "Saving...";
+
+    api.setUserPicture(editPictureInput.value)
+      .then((res) => {
+        userInfoRes.picture = res.avatar;
+        userInfo.setUserPicture(userInfoRes.picture);
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        popupWithEditPictureForm.closePopup()
+        setTimeout(() => { popupEditPictureForm.querySelector(settingsObject.submitButtonSelector).textContent = "Save" }, 600);
+      })
+  },
+  formReset: () => {
+    assignEditPictureValues();
+    editPictureFormValidator.resetValidation();
+  }
+})
+
+popupWithEditPictureForm.setEventListeners();
 
 /** Adding event listeneres to the add form popup */
 
 const popupWithAddForm = new PopupWithForm(selectors.popupTypeAdd, {
   handleSubmit: ({ title, url }) => {
 
+    popupAddForm.querySelector(settingsObject.submitButtonSelector).textContent = "Creating...";
+
     const newPhoto = {};
 
-    newPhoto.name = title;
+    api.addCard({ name: title, link: url })
+      .then((res) => {
+        newPhoto._id = res._id;
+        newPhoto.owner = res.owner;
+        newPhoto.likes = res.likes;
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
 
-    newPhoto.link = url;
+        newPhoto.name = title;
 
-    addPhoto(newPhoto);
+        newPhoto.link = url;
 
-    popupWithAddForm.closePopup();
+        addPhoto(newPhoto);
+
+        popupWithAddForm.closePopup();
+
+        setTimeout(() => { popupAddForm.querySelector(settingsObject.submitButtonSelector).textContent = "Create" }, 600);
+
+      })
 
   },
 
@@ -122,12 +184,20 @@ popupWithAddForm.setEventListeners();
 
 /** Adding event listeneres to the edit form popup */
 
-const popupWithEditForm = new PopupWithForm(selectors.popupTypeEdit, {
+const popupWithEditForm = new PopupWithForm(selectors.popupTypeEditInfo, {
   handleSubmit: ({ name, job }) => {
 
-    userInfo.setUserInfo({ name, job });
+    popupEditForm.querySelector(settingsObject.submitButtonSelector).textContent = "Saving...";
 
-    popupWithEditForm.closePopup();
+    api.setUserinfo({ name: name, about: job })
+      .then(() => {
+        userInfo.setUserInfo({ name, job });
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        popupWithEditForm.closePopup();
+        setTimeout(() => { popupEditForm.querySelector(settingsObject.submitButtonSelector).textContent = "Save" }, 600);
+      })
 
   },
 
@@ -142,8 +212,122 @@ const popupWithEditForm = new PopupWithForm(selectors.popupTypeEdit, {
 
 popupWithEditForm.setEventListeners();
 
-/** Adding listeners for the add and edit buttons */
+/** Adding event listeners to the delete form */
+
+const popupWithDeleteForm = new PopupWithForm(selectors.popupTypeDeletePicture, {
+  handleSubmit: () => {
+
+    popupDeletePictureForm.querySelector(settingsObject.submitButtonSelector).textContent = "Deleting...";
+
+    api.deleteCard(popupDeletePictureForm._id)
+      .then(() => {
+        let deletedPicture = document.querySelector(`.photo[id='${popupDeletePictureForm._id}']`);
+        deletedPicture.remove();
+        deletedPicture = null;
+        popupDeletePictureForm._id = ""
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        popupWithDeleteForm.closePopup();
+        setTimeout(() => { popupDeletePictureForm.querySelector(settingsObject.submitButtonSelector).textContent = "Yes" }, 600);
+      })
+  },
+  formReset: () => popupDeletePictureForm._id = ""
+})
+
+popupWithDeleteForm.setEventListeners();
+
+/**
+ * @function assignLikeCount
+ * @description A function to assign the new like count for the picture
+ * @param {object} photo - The object of the photo element
+ * @param {number} likeCount - The number of likes the picture has
+ */
+
+function assignLikeCount(photo, likeCount) {
+
+  photo.querySelector(".photo__like-count").textContent = likeCount;
+
+}
+
+/**
+ * @function addPhoto
+ * @description Function to add photos
+ */
+
+function addPhoto({ name, link, _id, owner, likes }) {
+
+  const card = new Card(name, link, _id, owner, userInfoRes._id, likes, photoTemplate, {
+    handleCardClick: () => {
+      popupWithImage.openPopup({ name, link });
+    },
+    handleCardDelete: () => {
+      popupWithDeleteForm.openPopup();
+      popupDeletePictureForm._id = _id;
+    },
+    handleLike: () => {
+
+      const photo = document.querySelector(`.photo[id='${_id}']`);
+      const photoLikeButton = photo.querySelector(".photo__like");
+
+      if (photoLikeButton.classList.contains("photo__like_active")) {
+
+        api.removeLike(_id)
+          .then(res => assignLikeCount(photo, res.likes.length))
+          .catch(err => console.log(err))
+          .finally(() => photoLikeButton.classList.toggle("photo__like_active"))
+
+      }
+
+      else {
+
+        api.addLike(_id)
+          .then(res => assignLikeCount(photo, res.likes.length))
+          .catch(err => console.log(err))
+          .finally(() => photoLikeButton.classList.toggle("photo__like_active"))
+
+      }
+
+    }
+  });
+
+  const cardElement = card.createCard();
+
+  photoGrid.prepend(cardElement);
+
+}
+
+/** Creating and rendering the photoGrid section */
+
+const photoGridSection = new Section({
+  items: initialCards,
+  renderer: addPhoto
+
+}, selectors.photoGrid);
+
+api.getIntialCard()
+  .then((result) => {
+
+    let i = 0;
+
+    result.forEach((card) => {
+
+      initialCards[i] = card
+
+      i++;
+
+    })
+
+    console.log(initialCards)
+
+  })
+  .catch(err => console.log(err))
+  .finally(() => photoGridSection.renderSection())
+
+/** Adding listeners for the add, edit and edit picture buttons */
 
 editButton.addEventListener("click", () => { popupWithEditForm.openPopup(); });
 
 addButton.addEventListener("click", () => { popupWithAddForm.openPopup(); });
+
+profilePictureEditButton.addEventListener("click", () => { popupWithEditPictureForm.openPopup(); });
