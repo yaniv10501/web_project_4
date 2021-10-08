@@ -106,7 +106,7 @@ const popupWithAddForm = new PopupWithForm(selectors.popupTypeAdd, {
 
     api.addCard({ name: title, link: url })
       .then((res) => {
-        addPhoto(res);
+        prependPhoto(res);
         popupWithAddForm.closePopup();
       })
       .catch(err => console.log(err))
@@ -227,6 +227,14 @@ function addPhoto({ name, link, _id, owner, likes }) {
   const cardElement = createCard({ name, link, _id, owner, likes });
 
   photoGridSection.addItems(cardElement);
+
+}
+
+function prependPhoto({ name, link, _id, owner, likes }) {
+
+  const cardElement = createCard({ name, link, _id, owner, likes });
+
+  photoGridSection.prependItems(cardElement);
 
 }
 

@@ -32,6 +32,12 @@ export default class Section {
 
   }
 
+  prependItems(item) {
+
+    this._section.prepend(item);
+
+  }
+
   /**
    * @method renderSection
    * @description A public method to render the section
